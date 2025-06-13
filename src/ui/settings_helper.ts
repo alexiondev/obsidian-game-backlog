@@ -1,5 +1,10 @@
 import { App, Setting } from "obsidian";
 
+export interface Description {
+    text: string,
+    url: string,
+}
+
 export class SettingsHelper {
     app: App;
     containerEl: HTMLElement;
@@ -12,5 +17,26 @@ export class SettingsHelper {
 
     public header(text: string): Setting {
         return new Setting(this.containerEl).setName(text).setHeading();
+    }
+
+    public toggle(name: string, description: string, value: boolean, on_change: (new_value:boolean)=>void): Setting {
+        return new Setting(this.containerEl)
+            .setName(name)
+            .setDesc(description)
+            .addToggle((toggle) => {
+                toggle.setValue(value)
+                      .onChange(on_change);
+            });
+    }
+
+    public text(name: string, description: string, placeholder: string, value: string, on_change: (new_value:string)=>void): Setting {
+        return new Setting(this.containerEl)
+            .setName(name)
+            .setDesc(description)
+            .addText((text) => {
+                text.setPlaceholder(placeholder)
+                    .setValue(value)
+                    .onChange(on_change)
+            })
     }
 }
