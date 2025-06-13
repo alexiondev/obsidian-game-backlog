@@ -3,6 +3,7 @@ import { Cmd } from "./command";
 import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
 import { Steam } from "external/steam_api";
+import { read_all } from "notes/read";
 
 export class SteamImportCmd extends Cmd {
     public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): SteamImportCmd {
@@ -23,6 +24,7 @@ export class SteamImportCmd extends Cmd {
     public override async run(app: App, settings: GameBacklogSettings): Promise<void> {
         let api = new Steam(this.plugin, settings.steam_api_key, settings.steam_user_id);
         let new_games = await api.get_owned_games();
-        console.log(new_games);
+        // console.log(new_games);
+        let exist = read_all(app, settings);
     }
 }

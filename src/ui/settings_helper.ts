@@ -1,4 +1,5 @@
 import { App, Setting } from "obsidian";
+import { FolderSuggest } from "./folder_suggest";
 
 export interface Description {
     text: string,
@@ -38,5 +39,17 @@ export class SettingsHelper {
                     .setValue(value)
                     .onChange(on_change)
             })
+    }
+
+    public directory(name: string, description: string, placeholder: string, value: string, on_change: (new_value:string)=>void): Setting {
+        return new Setting(this.containerEl)
+            .setName(name)
+            .setDesc(description)
+            .addSearch((cb) => {
+                new FolderSuggest(this.app, cb.inputEl);
+                cb.setPlaceholder(placeholder)
+                    .setValue(value)
+                    .onChange(on_change);
+            });
     }
 }

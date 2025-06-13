@@ -3,12 +3,14 @@ import { PluginSettingTab, App } from "obsidian";
 import { SettingsHelper } from "ui/settings_helper";
 
 export interface GameBacklogSettings {
+    notes_directory: string,
     steam_enable: boolean
     steam_api_key: string
     steam_user_id: string
 }
 
 export const kDefaultGameBacklogSettings: GameBacklogSettings = {
+    notes_directory: "games",
     steam_enable: true,
     steam_api_key: "",
     steam_user_id: "",
@@ -21,6 +23,15 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
 
 	public display(): void {
 		const helper = new SettingsHelper(this.app, this.containerEl);
+
+        helper.directory("Game notes folder",
+            "Folder where game notes are stored.",
+            kDefaultGameBacklogSettings.notes_directory,
+            this.plugin.settings.notes_directory,
+            (new_folder: string) => {
+                this.plugin.update_settings({notes_directory: new_folder});
+            }
+        );
 
 		helper.header("Steam");
 		helper.toggle("Enable integration with Steam APIs", 

@@ -1,5 +1,7 @@
 import GameBacklogPlugin from "main";
-import { Notice } from "obsidian";
+import { Game } from "notes/game";
+import { App, Notice } from "obsidian";
+import { GameBacklogSettings } from "settings";
 
 export class Steam {
     plugin: GameBacklogPlugin;
@@ -17,4 +19,8 @@ export class Steam {
         return (await this.plugin.query(url)).json.response.games;
     }
 
+    public async import_games(app: App, settings: GameBacklogSettings): Promise<Game[]> {
+        let games: Game[] = [];
+        return games;
+    }
 }

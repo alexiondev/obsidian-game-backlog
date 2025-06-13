@@ -1,3 +1,4 @@
+import { RewriteAllCmd } from 'commands/basic';
 import { SteamImportCmd } from 'commands/steam';
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, requestUrl, Setting } from 'obsidian';
 import { GameBacklogSettings, kDefaultGameBacklogSettings, GameBacklogSettingsTab } from 'settings';
@@ -13,6 +14,10 @@ export default class GameBacklogPlugin extends Plugin {
 
 		const command_prefix = "backlog";
 
+		// Basic
+		RewriteAllCmd.with_prefix(this, command_prefix);
+
+		// Steam
 		SteamImportCmd.with_prefix(this, command_prefix);
 
 		console.log("GameBacklog loaded!");
