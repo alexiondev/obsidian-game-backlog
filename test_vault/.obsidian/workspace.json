@@ -11,10 +11,14 @@
             "id": "192a3bf616c53fbc",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "games/a game about digging a hole.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "a game about digging a hole"
             }
           }
         ]
@@ -163,9 +167,9 @@
   },
   "active": "192a3bf616c53fbc",
   "lastOpenFiles": [
-    "games/a game about digging a hole.md",
     "games/1993 space machine.md",
     "games/198x.md",
+    "games/a game about digging a hole.md",
     "games/game1 1 1.md",
     "games/sub/game 2.md",
     "games/sub",

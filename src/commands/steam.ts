@@ -3,7 +3,7 @@ import { Cmd } from "./command";
 import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
 import { Steam } from "external/steam_api";
-import { read_all } from "notes/read";
+import { read_all } from "notes/note";
 
 export class SteamImportCmd extends Cmd {
     public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): SteamImportCmd {

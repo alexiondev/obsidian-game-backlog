@@ -15,7 +15,6 @@ features:: [[single player]]
 preferred_input:: [[mkb]] / [[controller]]
 %%
 #game/wishlist
-#deck/unknown
 #v3/2
 
 # `=this.aliases[0]`

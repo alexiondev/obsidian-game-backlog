@@ -15,7 +15,6 @@ features:: [[single player]] / [[local co-op]]
 preferred_input:: [[mkb]] / [[controller]]
 %%
 #game/unplayed
-#deck/unknown
 #v3/2
 
 # `=this.aliases[0]`
