@@ -285,7 +285,7 @@ function write_note(app: App, settings: GameBacklogSettings, game: Game): void {
         .push("")
         .push("# `=this.aliases[0]`")
         .push("## Related Notes")
-        .push("`$=dv.view(\"_attachments/views/related_notes\")`")
+        .push("`$=dv.view(\"attachments/related_notes\")`")
     
     let file = app.vault.getFileByPath(game.filepath);
     if (file === null) {

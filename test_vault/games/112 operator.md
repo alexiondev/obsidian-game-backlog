@@ -19,4 +19,4 @@ preferred_input:: [[mkb]]
 
 # `=this.aliases[0]`
 ## Related Notes
-`$=dv.view("_attachments/views/related_notes")`
+`$=dv.view("attachments/related_notes")`
