@@ -37,13 +37,16 @@ export default class GameBacklogPlugin extends Plugin {
 			return this.query_cache.get(url);
 		}
 
-		let resp = await requestUrl(url);
-		switch (resp.status) {
-			case 200:
+		try {
+			let resp = await requestUrl(url);
+			if (resp.status === 200) {
 				this.query_cache.set(url, resp);
-				break;
-		}
-		return resp;
+			}
+
+			return resp;
+		} catch (e) {
+			console.error(e);
+		}	
 	}
 }
 

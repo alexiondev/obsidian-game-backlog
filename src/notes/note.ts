@@ -34,7 +34,6 @@ const kTagsToIgnore = new Set([
     "#v3/2",
 ]);
 
-// const symbolts_to_ignore = /[:,!?'™®+/\.\[\]]/gi;
 
 export async function read_all(app: App, settings: GameBacklogSettings): Promise<Game[]> {
     let games: Game[] = [];

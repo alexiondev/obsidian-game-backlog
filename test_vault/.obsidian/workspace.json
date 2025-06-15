@@ -11,14 +11,10 @@
             "id": "192a3bf616c53fbc",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "games/a game about digging a hole.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "a game about digging a hole"
+              "title": "New tab"
             }
           }
         ]
@@ -78,7 +74,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 296.5
   },
   "right": {
     "id": "ed330616a98960c7",
@@ -167,17 +163,35 @@
   },
   "active": "192a3bf616c53fbc",
   "lastOpenFiles": [
+    "games/walkabout mini golf.md",
+    "games/after the fall.md",
     "games/1993 space machine.md",
-    "games/198x.md",
-    "games/a game about digging a hole.md",
-    "games/game1 1 1.md",
-    "games/sub/game 2.md",
+    "games/7 days to die.md",
+    "games/bastion.md",
+    "games/dota 2.md",
+    "games/team fortress 2.md",
+    "games/journey to the savage planet.md",
+    "games/revenge of the savage planet.md",
+    "games/lumberjacked.md",
+    "games/pacific drive.md",
+    "games/clair obscur expedition 33.md",
+    "games/shadow gambit the cursed crew.md",
+    "games/repo.md",
+    "games/remnant ii.md",
+    "games/schedule i.md",
+    "games/dead by daylight.md",
+    "games/ghostrunner 2.md",
+    "games/nioh 2 – the complete edition.md",
+    "games/the thaumaturge.md",
+    "games/kādomon hyper auto battlers prologue.md",
+    "games/lockdown protocol.md",
+    "games/marvel rivals.md",
+    "games/dice gambit the first act.md",
+    "games/my little universe.md",
+    "games/you suck at parking - complete edition.md",
     "games/sub",
-    "games/game1 1.md",
-    "games/game1.md",
     "games",
     "notes/game",
-    "notes",
-    "Untitled.md"
+    "notes"
   ]
 }
