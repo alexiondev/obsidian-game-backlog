@@ -49,6 +49,11 @@ export class Steam {
         return (await this.plugin.query(url)).json;
     }
     
+    private async get_wishlist(): Promise<any> {
+        const url = `https://api.steampowered.com/IWishlistService/GetWishlist/v1?steamid=${this.user_id}`
+        return (await this.plugin.query(url)).json.response.items;
+    }
+
     private async get_current_achievements(steam_app_id: number): Promise<number | null> {
         try {
             let response = await this.get_user_stats(steam_app_id);
@@ -268,6 +273,72 @@ export class Steam {
             console.log(e);
         }
 
+        return games;
+    }
+
+    public async get_oudated_games(app: App, settings: GameBacklogSettings): Promise<Game[]> {
+        let last_played_by_id: Map<number, number> = new Map();
+        for (let owned of await this.get_owned_games()) {
+            last_played_by_id.set(owned.appid, owned.rtime_last_played);
+        }
+
+        return (await read_all(app, settings))
+            .filter((game: Game) => game.steam_app_id !== null)
+            .filter((game: Game) => {
+                let last_played = last_played_by_id.get(game.steam_app_id!);
+                return last_played === undefined || last_played > game.last_updated!;
+            })
+            .filter((game: Game) => game.status !== "wishlist");
+    }
+
+    public async update_games(app: App, settings: GameBacklogSettings, games: Game[]): Promise<Game[]> {
+        let updated: Game[] = [];
+
+        try {
+            for (let game of games) {
+                let achievements = await this.get_achievements(game.steam_app_id!);
+
+                game.achievements = achievements ? achievements : game.achievements;
+                game.last_updated = timestamp_now();
+
+                console.log(game);
+                updated.push(game);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+
+        return updated;
+    }
+
+    public async get_wishlisted_games(app: App, settings: GameBacklogSettings): Promise<Game[]> {
+        const exists = new Set((await read_all(app, settings))
+            .filter((game: Game) => game.steam_app_id !== null && game.status === "wishlist")
+            .map((game: Game) => game.steam_app_id!));
+
+        let games: Game[] = [];
+        try {
+        let wishlisted = (await this.get_wishlist())
+            .map((x: any) => x.appid)
+            .filter((appid: number) => !(exists.has(appid)));
+
+
+        for (let appid of wishlisted) {
+            let game_info = (await this.get_game_info(appid));
+            if (game_info.type !== "game") {
+                console.log(`Skipping wishlist -- ID(${appid}), Name(${game_info.name})`)
+                continue;
+            }
+
+            let game = await this.get_game(settings, appid, game_info.name);
+            game.status = "wishlist";
+
+            games.push(game);
+        }
+    } catch (e) {
+        console.log(e);
+    }
+        
         return games;
     }
 }

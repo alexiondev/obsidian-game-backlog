@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "4fa63d0e1854e75e",
+        "id": "6b39f107628dc9bb",
         "type": "tabs",
         "children": [
           {
-            "id": "192a3bf616c53fbc",
+            "id": "a7e92807b408c2fd",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "genres/simulation.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "simulation"
             }
           }
         ]
@@ -161,37 +165,43 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "192a3bf616c53fbc",
+  "active": "a7e92807b408c2fd",
   "lastOpenFiles": [
-    "games/walkabout mini golf.md",
-    "games/after the fall.md",
-    "games/1993 space machine.md",
-    "games/7 days to die.md",
-    "games/bastion.md",
-    "games/dota 2.md",
-    "games/team fortress 2.md",
-    "games/journey to the savage planet.md",
-    "games/revenge of the savage planet.md",
-    "games/lumberjacked.md",
-    "games/pacific drive.md",
-    "games/clair obscur expedition 33.md",
-    "games/shadow gambit the cursed crew.md",
-    "games/repo.md",
-    "games/remnant ii.md",
-    "games/schedule i.md",
-    "games/dead by daylight.md",
-    "games/ghostrunner 2.md",
-    "games/nioh 2 – the complete edition.md",
-    "games/the thaumaturge.md",
-    "games/kādomon hyper auto battlers prologue.md",
-    "games/lockdown protocol.md",
-    "games/marvel rivals.md",
-    "games/dice gambit the first act.md",
-    "games/my little universe.md",
-    "games/you suck at parking - complete edition.md",
-    "games/sub",
-    "games",
-    "notes/game",
-    "notes"
+    "games/dark souls ii scholar of the first sin.md",
+    "games/yokus island express.md",
+    "games/town of salem.md",
+    "games/dungeon of the endless.md",
+    "games/this war of mine.md",
+    "games/project cars.md",
+    "games/beat hazard.md",
+    "games/the long dark.md",
+    "games/axiom verge.md",
+    "games/counter-strike 2.md",
+    "games/2064 read only memories.md",
+    "games/dark souls prepare to die edition.md",
+    "games/ziggurat.md",
+    "games/sid meiers civilization beyond earth.md",
+    "games/wasted.md",
+    "games/windward.md",
+    "games/sleeping dogs definitive edition.md",
+    "games/middle-earth shadow of mordor.md",
+    "games/move or die.md",
+    "games/ryse son of rome.md",
+    "games/jotun valhalla edition.md",
+    "games/styx master of shadows.md",
+    "games/frostpunk.md",
+    "games/tharsis.md",
+    "games/superhot mind control delete.md",
+    "games/superhot.md",
+    "genres/features",
+    "platforms/Untitled",
+    "platforms",
+    "genres",
+    "attachments/dv_utils.js",
+    "attachments/unlinked_mentions.js",
+    "attachments/related_notes.js",
+    "attachments/playlist.js",
+    "attachments/list_of_notes.js",
+    "attachments/genre.js"
   ]
 }

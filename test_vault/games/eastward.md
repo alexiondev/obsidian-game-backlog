@@ -1,0 +1,22 @@
+---
+aliases: ["Eastward"]
+achievements:
+ current: 0
+ total: 30
+release_year: 2021
+
+steam_app_id: 977880
+last_updated: 1750028259
+---
+%%
+genres:: [[action]] [[adventure]] [[indie]] [[rpg]]
+platform:: [[steam]]
+features:: [[single player]]
+preferred_input:: [[mkb]] / [[controller]]
+%%
+#game/wishlist
+#v3/2
+
+# `=this.aliases[0]`
+## Related Notes
+`$=dv.view("attachments/related_notes")`
