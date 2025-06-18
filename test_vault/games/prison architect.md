@@ -6,7 +6,7 @@ achievements:
 release_year: 2015
 
 steam_app_id: 233450
-last_updated: 1750038651
+last_updated: 1750218209
 ---
 %%
 genres:: [[indie]] [[simulation]] [[strategy]]

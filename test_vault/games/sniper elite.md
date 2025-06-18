@@ -3,7 +3,7 @@ aliases: ["Sniper Elite"]
 release_year: 2009
 
 steam_app_id: 3700
-last_updated: 1750038647
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]]

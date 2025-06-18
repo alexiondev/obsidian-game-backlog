@@ -3,7 +3,7 @@ aliases: ["Antichamber"]
 release_year: 2013
 
 steam_app_id: 219890
-last_updated: 1750038649
+last_updated: 1750218209
 ---
 %%
 genres:: [[adventure]] [[indie]]

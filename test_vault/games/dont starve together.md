@@ -3,7 +3,7 @@ aliases: ["Don't Starve Together"]
 release_year: 2016
 
 steam_app_id: 322330
-last_updated: 1750038645
+last_updated: 1750218208
 ---
 %%
 genres:: [[action]] [[adventure]] [[indie]] [[rpg]] [[simulation]] [[strategy]]

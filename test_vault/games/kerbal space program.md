@@ -3,7 +3,7 @@ aliases: ["Kerbal Space Program"]
 release_year: 2015
 
 steam_app_id: 220200
-last_updated: 1750038644
+last_updated: 1750218208
 ---
 %%
 genres:: [[indie]] [[simulation]]

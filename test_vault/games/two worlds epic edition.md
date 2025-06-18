@@ -3,7 +3,7 @@ aliases: ["Two Worlds: Epic Edition"]
 release_year: 2009
 
 steam_app_id: 1930
-last_updated: 1750038647
+last_updated: 1750218208
 ---
 %%
 genres:: [[rpg]]

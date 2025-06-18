@@ -3,7 +3,7 @@ aliases: ["Tropico 3 - Steam Special Edition"]
 release_year: 2009
 
 steam_app_id: 23490
-last_updated: 1750038633
+last_updated: 1750218207
 ---
 %%
 genres:: [[simulation]] [[strategy]]

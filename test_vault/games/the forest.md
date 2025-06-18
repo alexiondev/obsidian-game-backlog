@@ -6,7 +6,7 @@ achievements:
 release_year: 2018
 
 steam_app_id: 242760
-last_updated: 1750038654
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[adventure]] [[indie]] [[simulation]]

@@ -3,7 +3,7 @@ aliases: ["Spore: Creepy & Cute Parts Pack"]
 release_year: 2008
 
 steam_app_id: 17440
-last_updated: 1750038632
+last_updated: 1750218206
 ---
 %%
 genres:: [[simulation]]

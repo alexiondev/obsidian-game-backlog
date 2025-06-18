@@ -3,7 +3,7 @@ aliases: ["Team Fortress Classic"]
 release_year: 1999
 
 steam_app_id: 20
-last_updated: 1750038629
+last_updated: 1750218204
 ---
 %%
 genres:: [[action]]

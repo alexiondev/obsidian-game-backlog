@@ -6,7 +6,7 @@ achievements:
 release_year: 0
 
 steam_app_id: 242050
-last_updated: 1750038664
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[adventure]]

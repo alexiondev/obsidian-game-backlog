@@ -3,7 +3,7 @@ aliases: ["Spore"]
 release_year: 2008
 
 steam_app_id: 17390
-last_updated: 1750038632
+last_updated: 1750218206
 ---
 %%
 genres:: [[action]] [[adventure]] [[casual]] [[rpg]] [[simulation]] [[strategy]]

@@ -6,7 +6,7 @@ achievements:
 release_year: 2013
 
 steam_app_id: 239350
-last_updated: 1750038657
+last_updated: 1750218209
 ---
 %%
 genres:: [[indie]]

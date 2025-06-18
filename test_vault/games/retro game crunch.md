@@ -3,7 +3,7 @@ aliases: ["Retro Game Crunch"]
 release_year: 2014
 
 steam_app_id: 290040
-last_updated: 1750038678
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[adventure]] [[indie]]

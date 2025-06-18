@@ -6,7 +6,7 @@ achievements:
 release_year: 2015
 
 steam_app_id: 252950
-last_updated: 1750038663
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[indie]] [[racing]] [[sports]]

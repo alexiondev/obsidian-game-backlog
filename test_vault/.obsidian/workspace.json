@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "6b39f107628dc9bb",
+        "id": "a2232253a1abc365",
         "type": "tabs",
         "children": [
           {
-            "id": "a7e92807b408c2fd",
+            "id": "3e645d03b6d1ba5b",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "genres/simulation.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "simulation"
+              "title": "New tab"
             }
           }
         ]
@@ -165,34 +161,34 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "a7e92807b408c2fd",
+  "active": "3e645d03b6d1ba5b",
   "lastOpenFiles": [
-    "games/dark souls ii scholar of the first sin.md",
-    "games/yokus island express.md",
-    "games/town of salem.md",
-    "games/dungeon of the endless.md",
-    "games/this war of mine.md",
-    "games/project cars.md",
-    "games/beat hazard.md",
-    "games/the long dark.md",
-    "games/axiom verge.md",
-    "games/counter-strike 2.md",
-    "games/2064 read only memories.md",
-    "games/dark souls prepare to die edition.md",
-    "games/ziggurat.md",
-    "games/sid meiers civilization beyond earth.md",
-    "games/wasted.md",
-    "games/windward.md",
-    "games/sleeping dogs definitive edition.md",
-    "games/middle-earth shadow of mordor.md",
-    "games/move or die.md",
-    "games/ryse son of rome.md",
-    "games/jotun valhalla edition.md",
-    "games/styx master of shadows.md",
-    "games/frostpunk.md",
-    "games/tharsis.md",
-    "games/superhot mind control delete.md",
-    "games/superhot.md",
+    "games/pubg battlegrounds.md",
+    "games/thems fightin herds.md",
+    "games/little big workshop.md",
+    "games/underhero.md",
+    "games/fidel dungeon rescue.md",
+    "games/dead in vinland.md",
+    "games/steamworld dig 2.md",
+    "games/serious sam 3 vr bfe.md",
+    "games/witch it.md",
+    "games/opus magnum.md",
+    "games/stories untold.md",
+    "games/my friend pedro.md",
+    "games/helldivers 2.md",
+    "games/tunic.md",
+    "games/lethal league blaze.md",
+    "games/the sexy brutale.md",
+    "games/serious sam vr the second encounter.md",
+    "games/serious sam fusion 2017 (beta).md",
+    "games/serious sam vr the first encounter.md",
+    "games/the talos principle vr.md",
+    "games/planet coaster.md",
+    "games/the elder scrolls v skyrim special edition.md",
+    "games/deep rock galactic.md",
+    "games/half-life alyx.md",
+    "games/genital jousting.md",
+    "games/battlestar galactica deadlock.md",
     "genres/features",
     "platforms/Untitled",
     "platforms",

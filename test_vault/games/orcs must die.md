@@ -6,7 +6,7 @@ achievements:
 release_year: 2011
 
 steam_app_id: 102600
-last_updated: 1750038639
+last_updated: 1750218207
 ---
 %%
 genres:: [[action]] [[indie]] [[strategy]]

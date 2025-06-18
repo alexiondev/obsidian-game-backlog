@@ -3,7 +3,7 @@ aliases: ["Half-Life Deathmatch: Source"]
 release_year: 2006
 
 steam_app_id: 360
-last_updated: 1750038631
+last_updated: 1750218206
 ---
 %%
 genres:: [[action]]

@@ -6,7 +6,7 @@ achievements:
 release_year: 2014
 
 steam_app_id: 313340
-last_updated: 1750038686
+last_updated: 1750218210
 ---
 %%
 genres:: [[casual]] [[indie]] [[rpg]] [[simulation]]

@@ -6,7 +6,7 @@ achievements:
 release_year: 2012
 
 steam_app_id: 730
-last_updated: 1750038693
+last_updated: 1750218210
 ---
 %%
 genres:: [[action]] [[free to play]]

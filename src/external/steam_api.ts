@@ -23,6 +23,11 @@ const kInputMkb = "[[mkb]]";
 const kInputController = "[[controller]]";
 const kInputControllerVr = "[[controller vr]]";
 
+interface Param {
+    key: string
+    value: string
+}
+
 export class Steam {
     plugin: GameBacklogPlugin;
     key: string;
@@ -35,7 +40,18 @@ export class Steam {
     }
 
     private async get_owned_games(): Promise<null|any> {
-	    const url = `http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/?key=${this.key}&steamid=${this.user_id}&include_appinfo=true&include_played_free_games=true`;
+        let base_url = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v1/";
+        let params: Param[]= [
+           {key: "key", value: this.key},
+           {key: "steamid", value: this.user_id},
+           {key: "include_appinfo", value: "true"},
+        ];
+
+        if (this.plugin.settings.steam_include_free_to_play) {
+            params.push({key: "include_played_free_games", value: "true"});
+        }
+
+        let url = `${base_url}?${params.map((p: Param) => `${p.key}=${p.value}`).join("&")}`;
         return (await this.plugin.query(url)).json.response.games;
     }
 

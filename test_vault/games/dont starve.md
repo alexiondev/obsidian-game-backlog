@@ -3,7 +3,7 @@ aliases: ["Don't Starve"]
 release_year: 2013
 
 steam_app_id: 219740
-last_updated: 1750038645
+last_updated: 1750218208
 ---
 %%
 genres:: [[adventure]] [[indie]] [[simulation]]

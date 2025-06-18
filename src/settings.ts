@@ -3,10 +3,11 @@ import { PluginSettingTab, App } from "obsidian";
 import { SettingsHelper } from "ui/settings_helper";
 
 export interface GameBacklogSettings {
-    notes_directory: string,
+    notes_directory: string
     steam_enable: boolean
     steam_api_key: string
     steam_user_id: string
+	steam_include_free_to_play: boolean
 }
 
 export const kDefaultGameBacklogSettings: GameBacklogSettings = {
@@ -14,6 +15,7 @@ export const kDefaultGameBacklogSettings: GameBacklogSettings = {
     steam_enable: true,
     steam_api_key: "",
     steam_user_id: "",
+	steam_include_free_to_play: true,
 }
 
 export class GameBacklogSettingsTab extends PluginSettingTab {
@@ -63,6 +65,15 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
                     this.display();
                 }
             );
+
+			helper.toggle("Import F2P", 
+				"Will include free-to-play games when importing from Steam.", 
+				this.plugin.settings.steam_include_free_to_play,
+				(new_value: boolean) => {
+					this.plugin.update_settings({steam_include_free_to_play: new_value});
+					this.display();
+				}
+			);
 		}
 	}
 }

@@ -6,7 +6,7 @@ achievements:
 release_year: 2014
 
 steam_app_id: 251150
-last_updated: 1750038661
+last_updated: 1750218209
 ---
 %%
 genres:: [[rpg]]

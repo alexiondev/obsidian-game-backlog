@@ -1,0 +1,22 @@
+---
+aliases: ["Dungeon Defenders II"]
+achievements:
+ current: 18
+ total: 18
+release_year: 2017
+
+steam_app_id: 236110
+last_updated: 1750218211
+---
+%%
+genres:: [[action]] [[indie]] [[rpg]] [[strategy]] [[free to play]]
+platform:: [[steam]]
+features:: [[single player]] / [[online co-op]]
+preferred_input:: [[mkb]]
+%%
+#game/unbeaten
+#v3/2
+
+# `=this.aliases[0]`
+## Related Notes
+`$=dv.view("attachments/related_notes")`

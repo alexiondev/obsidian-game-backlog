@@ -6,7 +6,7 @@ achievements:
 release_year: 2020
 
 steam_app_id: 690040
-last_updated: 1750038688
+last_updated: 1750218210
 ---
 %%
 genres:: [[action]] [[indie]]

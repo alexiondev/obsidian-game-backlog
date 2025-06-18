@@ -3,7 +3,7 @@ aliases: ["Half-Life: Blue Shift"]
 release_year: 2001
 
 steam_app_id: 130
-last_updated: 1750038629
+last_updated: 1750218205
 ---
 %%
 genres:: [[action]]

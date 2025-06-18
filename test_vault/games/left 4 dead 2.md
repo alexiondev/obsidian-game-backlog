@@ -6,7 +6,7 @@ achievements:
 release_year: 2009
 
 steam_app_id: 550
-last_updated: 1750038634
+last_updated: 1750218207
 ---
 %%
 genres:: [[action]]

@@ -6,7 +6,7 @@ achievements:
 release_year: 2009
 
 steam_app_id: 3590
-last_updated: 1750038632
+last_updated: 1750218206
 ---
 %%
 genres:: [[strategy]]

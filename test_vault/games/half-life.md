@@ -3,7 +3,7 @@ aliases: ["Half-Life"]
 release_year: 1998
 
 steam_app_id: 70
-last_updated: 1750038629
+last_updated: 1750218204
 ---
 %%
 genres:: [[action]]

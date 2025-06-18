@@ -3,7 +3,7 @@ aliases: ["Project Zomboid"]
 release_year: 2013
 
 steam_app_id: 108600
-last_updated: 1750038681
+last_updated: 1750218209
 ---
 %%
 genres:: [[indie]] [[rpg]] [[simulation]] [[early access]]

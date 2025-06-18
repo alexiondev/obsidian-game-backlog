@@ -3,7 +3,7 @@ aliases: ["Half-Life: Opposing Force"]
 release_year: 1999
 
 steam_app_id: 50
-last_updated: 1750038629
+last_updated: 1750218204
 ---
 %%
 genres:: [[action]]

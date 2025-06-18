@@ -3,7 +3,7 @@ aliases: ["Saints Row 2"]
 release_year: 2009
 
 steam_app_id: 9480
-last_updated: 1750038683
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]]

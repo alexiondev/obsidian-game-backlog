@@ -3,7 +3,7 @@ aliases: ["Insaniquarium! Deluxe"]
 release_year: 2006
 
 steam_app_id: 3320
-last_updated: 1750038628
+last_updated: 1750218204
 ---
 %%
 genres:: [[casual]]

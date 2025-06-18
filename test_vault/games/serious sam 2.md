@@ -3,7 +3,7 @@ aliases: ["Serious Sam 2"]
 release_year: 2012
 
 steam_app_id: 204340
-last_updated: 1750038639
+last_updated: 1750218207
 ---
 %%
 genres:: [[action]] [[indie]]

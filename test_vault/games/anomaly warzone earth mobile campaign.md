@@ -6,7 +6,7 @@ achievements:
 release_year: 2013
 
 steam_app_id: 252170
-last_updated: 1750038662
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[strategy]]

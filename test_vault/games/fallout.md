@@ -3,7 +3,7 @@ aliases: ["Fallout"]
 release_year: 2015
 
 steam_app_id: 38400
-last_updated: 1750038683
+last_updated: 1750218210
 ---
 %%
 genres:: [[rpg]]

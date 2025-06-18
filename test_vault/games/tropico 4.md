@@ -6,7 +6,7 @@ achievements:
 release_year: 2011
 
 steam_app_id: 57690
-last_updated: 1750038647
+last_updated: 1750218208
 ---
 %%
 genres:: [[simulation]] [[strategy]]

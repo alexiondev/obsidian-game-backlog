@@ -3,7 +3,7 @@ aliases: ["Maize"]
 release_year: 2016
 
 steam_app_id: 284240
-last_updated: 1750038675
+last_updated: 1750218209
 ---
 %%
 genres:: [[adventure]] [[indie]]

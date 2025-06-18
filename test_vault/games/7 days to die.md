@@ -6,7 +6,7 @@ achievements:
 release_year: 2024
 
 steam_app_id: 251570
-last_updated: 1750038662
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[adventure]] [[indie]] [[rpg]] [[simulation]] [[strategy]]

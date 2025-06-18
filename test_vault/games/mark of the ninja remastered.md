@@ -6,7 +6,7 @@ achievements:
 release_year: 2018
 
 steam_app_id: 860950
-last_updated: 1750038656
+last_updated: 1750218209
 ---
 %%
 genres:: [[action]] [[indie]]
