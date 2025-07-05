@@ -1,4 +1,4 @@
-import { App, Setting } from "obsidian";
+import { App, ButtonComponent, Setting } from "obsidian";
 import { FolderSuggest } from "./folder_suggest";
 
 export interface Description {
@@ -10,10 +10,13 @@ export class SettingsHelper {
     app: App;
     containerEl: HTMLElement;
 
-    constructor(app: App, containerEl: HTMLElement) {
+    constructor(app: App, containerEl: HTMLElement, empty: boolean = true) {
         this.app = app;
         this.containerEl = containerEl;
-        this.containerEl.empty();
+
+        if (empty) {
+            this.containerEl.empty();
+        }
     }
 
     public header(text: string): Setting {
@@ -50,6 +53,20 @@ export class SettingsHelper {
                 cb.setPlaceholder(placeholder)
                     .setValue(value)
                     .onChange(on_change);
+            });
+    }
+
+    public button(name: string, description: string, button_text: string, cb: any, cta: boolean = false) {
+        return new Setting(this.containerEl)
+            .setName(name)
+            .setDesc(description)
+            .addButton((component: ButtonComponent) => {
+                component
+                    .setButtonText(button_text)
+                    .onClick(cb);
+                if (cta) {
+                    component.setCta();
+                }
             });
     }
 }

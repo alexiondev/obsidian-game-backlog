@@ -6,7 +6,11 @@ achievements:
 release_year: 2015
 
 steam_app_id: 388410
+<<<<<<< HEAD
 last_updated: 1750218211
+=======
+last_updated: 1750870292
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[action]] [[adventure]] [[rpg]]

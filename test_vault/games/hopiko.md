@@ -6,7 +6,11 @@ achievements:
 release_year: 2017
 
 steam_app_id: 437390
+<<<<<<< HEAD
 last_updated: 1750218212
+=======
+last_updated: 1750870306
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[action]] [[casual]] [[indie]]

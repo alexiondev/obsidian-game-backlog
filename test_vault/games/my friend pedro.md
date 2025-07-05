@@ -6,7 +6,11 @@ achievements:
 release_year: 2019
 
 steam_app_id: 557340
+<<<<<<< HEAD
 last_updated: 1750218212
+=======
+last_updated: 1750870328
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[action]] [[indie]]

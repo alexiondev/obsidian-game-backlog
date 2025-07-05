@@ -3,7 +3,11 @@ aliases: ["Scrap Mechanic"]
 release_year: 2016
 
 steam_app_id: 387990
+<<<<<<< HEAD
 last_updated: 1750218211
+=======
+last_updated: 1750870291
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[action]] [[adventure]] [[indie]] [[simulation]] [[early access]]

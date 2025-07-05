@@ -3,7 +3,11 @@ aliases: ["Stephen's Sausage Roll"]
 release_year: 2016
 
 steam_app_id: 353540
+<<<<<<< HEAD
 last_updated: 1750218210
+=======
+last_updated: 1750870275
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[indie]]

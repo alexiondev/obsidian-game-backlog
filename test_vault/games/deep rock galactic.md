@@ -6,7 +6,11 @@ achievements:
 release_year: 2020
 
 steam_app_id: 548430
+<<<<<<< HEAD
 last_updated: 1750218212
+=======
+last_updated: 1750870325
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[action]]

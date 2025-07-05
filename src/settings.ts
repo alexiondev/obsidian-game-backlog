@@ -1,9 +1,12 @@
 import GameBacklogPlugin from "main";
-import { PluginSettingTab, App } from "obsidian";
+import { PluginSettingTab, App, ButtonComponent } from "obsidian";
+import { IgnoreListModal } from "ui/ignore_list_modal";
 import { SettingsHelper } from "ui/settings_helper";
 
 export interface GameBacklogSettings {
+	debug: boolean,
     notes_directory: string
+	ignore_list: [string, string][]
     steam_enable: boolean
     steam_api_key: string
     steam_user_id: string
@@ -11,7 +14,9 @@ export interface GameBacklogSettings {
 }
 
 export const kDefaultGameBacklogSettings: GameBacklogSettings = {
+	debug: true,
     notes_directory: "games",
+	ignore_list: [],
     steam_enable: true,
     steam_api_key: "",
     steam_user_id: "",
@@ -25,6 +30,19 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
 
 	public display(): void {
 		const helper = new SettingsHelper(this.app, this.containerEl);
+
+		helper.toggle("Debug mode",
+			"",
+			this.plugin.settings.debug,
+			(new_value: boolean) => {
+				this.plugin.update_settings({debug: new_value});
+				this.display();
+			}
+		);
+
+		helper.button("Ignore list", "", "Manage", () => {
+			new IgnoreListModal(this.app, this.plugin).open()
+		}, /*cta=*/true);
 
         helper.directory("Game notes folder",
             "Folder where game notes are stored.",
@@ -56,7 +74,7 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
 				}
 			);
 
-            helper.text("Steam User ID",
+            helper.text("Steam user ID",
                 "Profile needs to be public.",
                 kDefaultGameBacklogSettings.steam_user_id,
                 this.plugin.settings.steam_user_id,

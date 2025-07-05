@@ -6,7 +6,11 @@ achievements:
 release_year: 2016
 
 steam_app_id: 496300
+<<<<<<< HEAD
 last_updated: 1750218212
+=======
+last_updated: 1750870319
+>>>>>>> 8409623 ([SETTINGS] Added ignore list.)
 ---
 %%
 genres:: [[indie]] [[simulation]] [[strategy]]
