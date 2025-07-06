@@ -6,6 +6,7 @@ export class Cmd {
     protected plugin: GameBacklogPlugin;
     protected id: string;
     protected name: string;
+    protected abort_controller: AbortController;
 
     protected constructor(plugin: GameBacklogPlugin, prefix: string, id: string, name: string) {
         this.plugin = plugin;
@@ -33,5 +34,11 @@ export class Cmd {
 
     public async run(app: App, settings: GameBacklogSettings): Promise<void> {
         throw new Error("Method <run> must be overriden.");
+    }
+
+    public async abort() {
+        if (this.abort_controller) {
+            this.abort_controller.abort();
+        }
     }
 }

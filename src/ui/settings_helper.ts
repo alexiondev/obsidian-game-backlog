@@ -10,9 +10,9 @@ interface Container {
 export class Setting extends obsidian.Setting {
     plugin: GameBacklogPlugin;
     app: obsidian.App;
-    container: Container
+    container: Container|null
 
-    constructor(plugin: GameBacklogPlugin, app: obsidian.App, container: Container, containerEl: HTMLElement) {
+    constructor(plugin: GameBacklogPlugin, app: obsidian.App, container: Container|null, containerEl: HTMLElement) {
         super(containerEl);
         this.plugin = plugin;
         this.app = app;
@@ -51,7 +51,10 @@ export class Setting extends obsidian.Setting {
             this.plugin.settings[setting],
             (new_value: boolean) => {
                 this.plugin.update_settings({[setting]:  new_value});
-                this.container.display();
+
+                if (this.container) {
+                    this.container?.display();
+                }
             });
     }
 

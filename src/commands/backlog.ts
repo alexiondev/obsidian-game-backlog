@@ -23,6 +23,13 @@ export class UpdateBacklogCmd extends Cmd {
     }
 
     private async update_backlog(): Promise<void> {
+        this.abort_controller = new AbortController();
+
         console.log("Update backlog");
+        this.cleanup();
+    }
+
+    private cleanup() {
+        this.plugin.update_status();
     }
 }
