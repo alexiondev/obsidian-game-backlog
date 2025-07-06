@@ -51,23 +51,43 @@ export class Steam {
             params.push({key: "include_played_free_games", value: "true"});
         }
 
-        let url = `${base_url}?${params.map((p: Param) => `${p.key}=${p.value}`).join("&")}`;
-        return (await this.plugin.query(url)).json.response.games;
+        const url = `${base_url}?${params.map((p: Param) => `${p.key}=${p.value}`).join("&")}`;
+        const resp = await this.plugin.query(url);
+
+        if (resp === null) {
+            return null;
+        }
+        return resp.json.response.games;
     }
 
     private async get_game_info(steam_app_id: number): Promise<any> {
         const url = `https://store.steampowered.com/api/appdetails?key=${this.key}&appids=${steam_app_id}`;
-        return (await this.plugin.query(url)).json[steam_app_id].data;
+        const resp =  await this.plugin.query(url);
+
+        if (resp === null) {
+            return null;
+        }
+        return resp.json[steam_app_id].data;
     }
 
     private async get_user_stats(steam_app_id: number): Promise<any> {
         const url = `https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${this.key}&steamid=${this.user_id}&appid=${steam_app_id}`;
-        return (await this.plugin.query(url)).json;
+        const resp = await this.plugin.query(url);
+
+        if (resp === null) {
+            return null;
+        }
+        return resp.json;
     }
     
     private async get_wishlist(): Promise<any> {
         const url = `https://api.steampowered.com/IWishlistService/GetWishlist/v1?steamid=${this.user_id}`
-        return (await this.plugin.query(url)).json.response.items;
+        const resp = await this.plugin.query(url);
+
+        if (resp === null) {
+            return null;
+        }
+        return resp.json.response.items;
     }
 
     private async get_current_achievements(steam_app_id: number): Promise<number | null> {

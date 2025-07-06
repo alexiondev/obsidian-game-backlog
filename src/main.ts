@@ -2,8 +2,12 @@ import { UpdateBacklogCmd } from 'commands/backlog';
 import { RewriteAllCmd } from 'commands/basic';
 import { ManageIgnoreListCmd } from 'commands/ignore_list';
 import { SteamImportCmd, SteamUpdateCmd, SteamWishlistCmd } from 'commands/steam';
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, requestUrl, Setting } from 'obsidian';
+import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, requestUrl, RequestUrlParam, RequestUrlResponse, RequestUrlResponsePromise, Setting } from 'obsidian';
 import { GameBacklogSettings, kDefaultGameBacklogSettings, GameBacklogSettingsTab } from 'settings';
+
+function sleep(ms: number) {
+	return new Promise(_ => setTimeout(_, ms));
+}
 
 export default class GameBacklogPlugin extends Plugin {
 	settings: GameBacklogSettings;
@@ -43,21 +47,30 @@ export default class GameBacklogPlugin extends Plugin {
 		await this.saveData(this.settings);
 	}
 
-	public async query(url: string): Promise<any> {
+	public async query(url: string, attempts: number = 3, delay: number = 100): Promise<RequestUrlResponse|null> {
+		if (attempts <= 0) {
+			return null;
+		}
+
 		if (this.query_cache.has(url)) {
 			return this.query_cache.get(url);
 		}
 
-		try {
-			let resp = await requestUrl(url);
-			if (resp.status === 200) {
-				this.query_cache.set(url, resp);
-			}
+		let request: RequestUrlParam = {
+			url: url,
+			throw: false,
+		};
 
-			return resp;
-		} catch (e) {
-			console.error(e);
-		}	
+		let resp = await requestUrl(request);
+		switch (resp.status) {
+			case 200:
+				this.query_cache.set(url, resp);
+				return resp;
+			case 429: // Rate limiting
+				sleep(delay);
+				return this.query(url, attempts - 1, delay*2);
+		}
+
+		return null;
 	}
 }
-
