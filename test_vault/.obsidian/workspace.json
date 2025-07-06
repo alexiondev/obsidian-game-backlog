@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "dced90c00feaff06",
+        "id": "2dd7ef11d051df0c",
         "type": "tabs",
         "children": [
           {
-            "id": "d4600981d073ee16",
+            "id": "f26fe722f2d8a8bf",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -161,7 +161,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d4600981d073ee16",
+  "active": "f26fe722f2d8a8bf",
   "lastOpenFiles": [
     "games/flyknight.md",
     "games/halo the master chief collection.md",

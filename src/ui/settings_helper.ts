@@ -1,72 +1,113 @@
-import { App, ButtonComponent, Setting } from "obsidian";
+import * as obsidian from "obsidian";
 import { FolderSuggest } from "./folder_suggest";
+import GameBacklogPlugin from "main";
+import { BooleanSettingsKey, kDefaultGameBacklogSettings, StringSettingsKey } from "settings";
 
-export interface Description {
-    text: string,
-    url: string,
+interface Container {
+    display: () => void;
 }
 
-export class SettingsHelper {
-    app: App;
-    containerEl: HTMLElement;
+export class Setting extends obsidian.Setting {
+    plugin: GameBacklogPlugin;
+    app: obsidian.App;
+    container: Container
 
-    constructor(app: App, containerEl: HTMLElement, empty: boolean = true) {
+    constructor(plugin: GameBacklogPlugin, app: obsidian.App, container: Container, containerEl: HTMLElement) {
+        super(containerEl);
+        this.plugin = plugin;
         this.app = app;
-        this.containerEl = containerEl;
-
-        if (empty) {
-            this.containerEl.empty();
-        }
+        this.container = container;
     }
 
-    public header(text: string): Setting {
-        return new Setting(this.containerEl).setName(text).setHeading();
+    public add_raw_directory(placeholder: string, value: string, on_change: (new_folder: string) => any): Setting {
+        this.addSearch((component: obsidian.SearchComponent) => {
+            new FolderSuggest(this.app, component.inputEl);
+            component
+                .setPlaceholder(placeholder)
+                .setValue(value)
+                .onChange(on_change)});
+            
+        return this;
     }
 
-    public toggle(name: string, description: string, value: boolean, on_change: (new_value:boolean)=>void): Setting {
-        return new Setting(this.containerEl)
-            .setName(name)
-            .setDesc(description)
-            .addToggle((toggle) => {
-                toggle.setValue(value)
-                      .onChange(on_change);
+    public add_directory(setting: StringSettingsKey): Setting {
+        return this.add_raw_directory(
+            kDefaultGameBacklogSettings[setting],
+            this.plugin.settings[setting],
+            (new_folder: string) => {
+                this.plugin.update_settings({[setting]: new_folder})});
+    }
+
+    public add_raw_toggle(value: boolean, on_change: (new_value: boolean) => any): Setting {
+        this.addToggle((component: obsidian.ToggleComponent) => {
+            component
+                .setValue(value)
+                .onChange(on_change)});
+
+        return this;
+    }
+    public add_toggle(setting: BooleanSettingsKey): Setting {
+        return this.add_raw_toggle(
+            this.plugin.settings[setting],
+            (new_value: boolean) => {
+                this.plugin.update_settings({[setting]:  new_value});
+                this.container.display();
             });
     }
 
-    public text(name: string, description: string, placeholder: string, value: string, on_change: (new_value:string)=>void): Setting {
-        return new Setting(this.containerEl)
-            .setName(name)
-            .setDesc(description)
-            .addText((text) => {
-                text.setPlaceholder(placeholder)
-                    .setValue(value)
-                    .onChange(on_change)
-            })
+    public add_raw_text(placeholder: string, value: string, on_change: (new_value: string) => any): Setting {
+        this.addText((component: obsidian.TextComponent) => {
+            component
+                .setPlaceholder(placeholder)
+                .setValue(value)
+                .onChange(on_change)});
+
+        return this;
+    }
+    public add_text(setting: StringSettingsKey): Setting {
+        return this.add_raw_text(
+            kDefaultGameBacklogSettings[setting],
+            this.plugin.settings[setting],
+            (new_value: string) => {
+                    this.plugin.update_settings({[setting]: new_value})});
+    }
+ 
+    public add_button(text: string, cta: boolean = false, on_click: () => any): Setting {
+        this.addButton((component: obsidian.ButtonComponent) => {
+            component
+                .setButtonText(text)
+                .onClick(on_click);
+            if (cta) {
+                component.setCta();
+            }
+        });
+
+        return this;
+    }
+    
+    public add_extra_button(icon: obsidian.IconName, on_click: () => any): Setting {
+        this.addExtraButton((component: obsidian.ExtraButtonComponent) => {
+            component
+                .setIcon(icon)
+                .onClick(on_click);
+        });
+
+        return this;
+    }
+}
+
+export class SettingsFactory {
+    plugin: GameBacklogPlugin;
+    app: obsidian.App;
+    container: Container;
+
+    constructor(plugin: GameBacklogPlugin, app: obsidian.App, container: Container) {
+        this.plugin = plugin;
+        this.app = app;
+        this.container = container;
     }
 
-    public directory(name: string, description: string, placeholder: string, value: string, on_change: (new_value:string)=>void): Setting {
-        return new Setting(this.containerEl)
-            .setName(name)
-            .setDesc(description)
-            .addSearch((cb) => {
-                new FolderSuggest(this.app, cb.inputEl);
-                cb.setPlaceholder(placeholder)
-                    .setValue(value)
-                    .onChange(on_change);
-            });
-    }
-
-    public button(name: string, description: string, button_text: string, cb: any, cta: boolean = false) {
-        return new Setting(this.containerEl)
-            .setName(name)
-            .setDesc(description)
-            .addButton((component: ButtonComponent) => {
-                component
-                    .setButtonText(button_text)
-                    .onClick(cb);
-                if (cta) {
-                    component.setCta();
-                }
-            });
+    public add(containerEl: HTMLElement): Setting {
+        return new Setting(this.plugin, this.app, this.container, containerEl);
     }
 }

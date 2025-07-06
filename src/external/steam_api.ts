@@ -246,6 +246,7 @@ export class Steam {
 
         return game;
     }
+
     private async get_game(settings: GameBacklogSettings, steam_app_id: number, name: string): Promise<Game> {
         let game_info = await this.get_game_info(steam_app_id);  
 

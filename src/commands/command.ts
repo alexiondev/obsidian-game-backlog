@@ -20,14 +20,18 @@ export class Cmd {
     }
 
     public static with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
-        throw new Error("Method must be overriden.");
+        throw new Error("Method <with_prefix> must be overriden.");
     }
 
     public check(app: App, settings: GameBacklogSettings, checking: boolean): boolean {
-        throw new Error("Method must be overriden.");
+        if (!checking) {
+            this.run(app, settings);
+        }
+
+        return true;
     }
 
     public async run(app: App, settings: GameBacklogSettings): Promise<void> {
-        throw new Error("Method must be overriden.");
+        throw new Error("Method <run> must be overriden.");
     }
 }

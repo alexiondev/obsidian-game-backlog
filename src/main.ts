@@ -1,8 +1,9 @@
+import { UpdateBacklogCmd } from 'commands/backlog';
 import { RewriteAllCmd } from 'commands/basic';
+import { ManageIgnoreListCmd } from 'commands/ignore_list';
 import { SteamImportCmd, SteamUpdateCmd, SteamWishlistCmd } from 'commands/steam';
 import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, requestUrl, Setting } from 'obsidian';
 import { GameBacklogSettings, kDefaultGameBacklogSettings, GameBacklogSettingsTab } from 'settings';
-import { SettingsHelper } from 'ui/settings_helper';
 
 export default class GameBacklogPlugin extends Plugin {
 	settings: GameBacklogSettings;
@@ -14,6 +15,13 @@ export default class GameBacklogPlugin extends Plugin {
 
 		const command_prefix = "backlog";
 
+		UpdateBacklogCmd.with_prefix(this, command_prefix);
+
+		// Ignore list
+		ManageIgnoreListCmd.with_prefix(this, command_prefix);
+
+
+		// Temporary debugging commands
 		// Basic
 		RewriteAllCmd.with_prefix(this, command_prefix);
 
@@ -30,6 +38,7 @@ export default class GameBacklogPlugin extends Plugin {
 	}
 
 	async update_settings(settings: Partial<GameBacklogSettings>) {
+		console.log(settings);
 		Object.assign(this.settings, settings);
 		await this.saveData(this.settings);
 	}

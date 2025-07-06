@@ -1,6 +1,6 @@
 import GameBacklogPlugin from "main";
-import { Modal, App, ButtonComponent, ExtraButtonComponent, Setting, TextComponent } from "obsidian";
-import { SettingsHelper } from "./settings_helper";
+import { Modal, App, ButtonComponent, ExtraButtonComponent, TextComponent } from "obsidian";
+import { Setting, SettingsFactory } from "./settings_helper";
 
 function clone(value: any): any {
     return JSON.parse(JSON.stringify(value));
@@ -18,66 +18,67 @@ export class IgnoreListModal extends Modal {
         this.display();
     }
 
-    private display(): void {
+    public display(): void {
         this.setTitle("Ignore list");
         this.contentEl.empty();
 
-        // The current ignore list
+        let factory = new SettingsFactory(this.plugin, this.app, this);
+
+        // Display the loaded ignore list.
         this.loaded.forEach((entry: [string, string], index: number) => {
-            new Setting(this.contentEl)
-                .addText((component: TextComponent) => {
-                    component
-                        .setValue(entry[0])
-                        .onChange((new_value: string) => {
-                            this.loaded[index][0] = new_value;
-                        })})
-                .addText((component: TextComponent) => {
-                    component
-                        .setValue(entry[1])
-                        .onChange((new_value: string) => {
+            factory.add(this.contentEl)
+                .add_raw_text(
+                    "",
+                    entry[0],
+                    (new_value: string) => {
+                        this.loaded[index][0] = new_value;
+                    })
+                .add_raw_text(
+                    "",
+                    entry[1],
+                    (new_value: string) => {
                         this.loaded[index][1] = new_value;
-                    })})
-                .addExtraButton((component: ExtraButtonComponent) => {
-                    component
-                        .setIcon("trash-2")
-                        .onClick(() => {
-                            this.loaded.remove(entry);
-                            this.display();
-                        })
-                })
+                    })
+                .add_extra_button(
+                    "trash-2", 
+                    () => {
+                        this.loaded.remove(entry);
+                        this.display();
+                    });
         });
 
-        // Add new entry
+        // Add a new entry
         let new_entry: [string, string] = ["", ""]
-        new Setting(this.contentEl)
-            .addText((component: TextComponent) => component
-                .setPlaceholder("appid")
-                .onChange((new_value: string) => new_entry[0] = new_value))
-            .addText((component: TextComponent) => component
-                .setPlaceholder("name")
-                .onChange((new_value: string) => new_entry[1] = new_value))
-            .addExtraButton((component: ExtraButtonComponent) => {
-                component
-                    .setIcon("plus")
-                    .onClick(() => {
-                        this.loaded.push(new_entry);
-                        this.display();
-                    })
-            });
+        factory.add(this.contentEl)
+            .add_raw_text(
+                "appid",
+                "",
+                (new_value: string) => new_entry[0] = new_value)
+            .add_raw_text(
+                "game name",
+                "",
+                (new_value: string) => new_entry[1] = new_value)
+            .add_extra_button(
+                "plus",
+                () => {
+                    this.loaded.push(new_entry);
+                    this.display();
+                });
 
         // Save and Cancel buttons
-        new Setting(this.contentEl)
-            .addButton((component: ButtonComponent) => {
-                component
-                    .setButtonText("Save")
-                    .setCta()
-                    .onClick(() => {
-                        this.close();
-                        this.plugin.update_settings({ignore_list: this.loaded});
-                    })})
-            .addButton((component: ButtonComponent) => {
-                component
-                    .setButtonText("Cancel")
-                    .onClick(() => this.close())})
+        factory.add(this.contentEl)
+            .add_button(
+                "Save", 
+                true, 
+                () => {
+                    this.close();
+                    this.plugin.update_settings({ignore_list: this.loaded});
+                })
+            .add_button(
+                "Cancel",
+                false,
+                () => {
+                    this.close();
+                });
     }
 }
