@@ -18,12 +18,7 @@ export class UpdateBacklogCmd extends Cmd {
             return;
         }
 
-        let setup_menu = new SetupModal(app, this.plugin, (cancelled: boolean) => {
-            if (!cancelled) {
-                this.plugin.update_settings({run_setup: false});
-                this.update_backlog();
-            }
-        });
+        let setup_menu = new SetupModal(app, this.plugin);
         setup_menu.open();
     }
 
