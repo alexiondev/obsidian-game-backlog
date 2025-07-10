@@ -2,7 +2,7 @@ import GameBacklogPlugin from "main";
 import { Cmd } from "./command";
 import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
-import { read_all, write } from "notes/note";
+import { read_all, write } from "notes/old_note";
 
 export class RewriteAllCmd extends Cmd {
     public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): RewriteAllCmd {

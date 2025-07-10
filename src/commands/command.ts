@@ -36,9 +36,13 @@ export class Cmd {
         throw new Error("Method <run> must be overriden.");
     }
 
-    public async abort() {
+    public abort() {
         if (this.abort_controller) {
             this.abort_controller.abort();
         }
+    }
+
+    protected should_abort(): boolean {
+        return this.abort_controller?.signal?.aborted;
     }
 }

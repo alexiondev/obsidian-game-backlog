@@ -1,7 +1,7 @@
 import GameBacklogPlugin from "main";
 import { PluginSettingTab, App, ButtonComponent } from "obsidian";
 import { IgnoreListModal } from "ui/ignore_list_modal";
-import { Setting, SettingsFactory } from "ui/settings_helper";
+import { SettingsFactory } from "ui/settings_helper";
 
 export interface GameBacklogSettings {
     notes_directory: string
@@ -12,6 +12,7 @@ export interface GameBacklogSettings {
     steam_user_id: string
 	steam_include_free_to_play: boolean
 	steam_include_wishlist: boolean
+	steam_import_genres: boolean;
 
 	run_setup: boolean
 }
@@ -33,6 +34,7 @@ export const kDefaultGameBacklogSettings: GameBacklogSettings = {
     steam_user_id: "",
 	steam_include_free_to_play: true,
 	steam_include_wishlist: true,
+	steam_import_genres: true,
 
 	run_setup: true,
 }
@@ -69,6 +71,9 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
 			factory.add(this.containerEl)
 				.setName("Include wishlist")
 				.add_toggle("steam_include_wishlist");
+			factory.add(this.containerEl)
+				.setName("Import genres")
+				.add_toggle("steam_import_genres");
 			factory.add(this.containerEl)
 				.setName("Steam API key")
 				.add_text("steam_api_key");

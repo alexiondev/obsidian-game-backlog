@@ -2,8 +2,8 @@ import GameBacklogPlugin from "main";
 import { Cmd } from "./command";
 import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
-import { Steam } from "external/steam_api";
-import { read_all, write } from "notes/note";
+import { Steam } from "external/steam_api_old";
+import { read_all, write } from "notes/old_note";
 
 class SteamCmd extends Cmd {
     public override check(app: App, settings: GameBacklogSettings, checking: boolean): boolean {

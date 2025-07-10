@@ -3,7 +3,7 @@ export class Game {
     public name: Name;
     public other_aliases: string[];
     public achievements: Achievements | null;
-    public release_year: number | null;
+    public release_year: string | null;
     public steam_app_id: number | null;
     public rom_path: string | null;
     public last_updated: number | null;

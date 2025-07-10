@@ -1,5 +1,5 @@
-import GameBacklogPlugin from "main";
-import { App, CachedMetadata, TFile, TFolder } from "obsidian";
+import { App, CachedMetadata, TAbstractFile, TFile, TFolder } from "obsidian";
+import { GameBacklogSettings } from "settings";
 import { Achievements, Game, RelatedGames } from "./game";
 
 const kSteamAppId = "steam_app_id";
@@ -34,56 +34,18 @@ const kTagsToIgnore = new Set([
     "#v3/2",
 ]);
 
-class Note {
-    data: string[] = [];
 
-    get_data(): string {
-        return this.data.join("\n");
-    }
-
-    push(value: string): Note {
-        this.data.push(value);
-        return this;
-    }
-
-    push_if(exists: any, value: string): Note {
-        if (!(exists === null || exists === undefined)) {
-            this.data.push(value);
-        }
-
-        return this;
-    }
-
-    push_iff(condition: boolean, value: string): Note {
-        if (condition) {
-            this.data.push(value);
-        }
-
-        return this;
-    }
-
-    push_if_not(exists: any, value: string): Note {
-        if (exists === null || exists === undefined || (typeof exists === "string" && exists === "")) {
-            this.data.push(value);
-        }
-
-        return this;
-    }
-
-}
-
-export async function read_notes(plugin: GameBacklogPlugin, app: App): Promise<Game[]> {
-    const folder = app.vault.getAbstractFileByPath(plugin.settings.notes_directory);
-
-    if (!(folder instanceof TFolder)) {
-        console.warn(`Not a valid folder: ${plugin.settings.notes_directory}`);
-        return [];
-    }
-
+export async function read_all(app: App, settings: GameBacklogSettings): Promise<Game[]> {
     let games: Game[] = [];
-    for (let file of folder.children) {
+
+    for (let file of app.vault.getAllLoadedFiles()) {
         // Ignore folders
         if (!(file instanceof TFile)) {
+            continue;
+        }
+
+        // Ignore subdirectories
+        if (!is_in_directory(file.path, settings.notes_directory)) {
             continue;
         }
 
@@ -96,32 +58,28 @@ export async function read_notes(plugin: GameBacklogPlugin, app: App): Promise<G
             continue;
         }
 
-        if (metadata.tags === undefined) {
-            continue;
-        }
-
-        games.push(read_note(
+        games.push(read(
             file.path,
             (await app.vault.read(file)).split("\n"),
             metadata
         ));
     }
+
     return games;
 }
 
-export function read_note(filepath: string, contents: string[], metadata: CachedMetadata): Game {
+function read(filepath: string, contents: string[], metadata: CachedMetadata): Game {
     let game = new Game(filepath);
 
     const frontmatter = metadata.frontmatter!;
     const tags = metadata.tags!.map(tag => tag.tag);
 
-    let other_frontmatter: string[] = [];
     for (const key in frontmatter) {
         switch (key) {
             case kAliases:
                 let aliases = frontmatter[key];
                 if (aliases.size === 0) {
-                    console.warn(`Game (${game.filepath}) does not have a name.`);
+                    console.warn(`WARNING: Game (${game.filepath}) does not have a name.`);
                     break;
                 }
 
@@ -145,7 +103,7 @@ export function read_note(filepath: string, contents: string[], metadata: Cached
                 game[key] = frontmatter[key];
                 break;
             default:
-                console.warn(`Unknown frontmatter field: (${key}, ${frontmatter[key]})`);
+                console.warn(`WARNING: Unknown frontmatter field: (${key}, ${frontmatter[key]})`);
                 break;
         }
     }
@@ -204,11 +162,85 @@ export function read_note(filepath: string, contents: string[], metadata: Cached
     return game;
 }
 
-export function write_note(plugin: GameBacklogPlugin, app: App, game: Game) {
+function is_in_directory(filepath: string, directory: string) {
+    if (!filepath.contains(directory)) {
+        return false;
+    }
+
+    return !filepath.replace(`${directory}/`, "").contains("/");
+}
+
+class Note {
+    data: string[] = [];
+
+    get_data(): string {
+        return this.data.join("\n");
+    }
+
+    push(value: string): Note {
+        this.data.push(value);
+        return this;
+    }
+
+    push_if(exists: any, value: string): Note {
+        if (!(exists === null || exists === undefined)) {
+            this.data.push(value);
+        }
+
+        return this;
+    }
+
+    push_iff(condition: boolean, value: string): Note {
+        if (condition) {
+            this.data.push(value);
+        }
+
+        return this;
+    }
+
+    push_if_not(exists: any, value: string): Note {
+        if (exists === null || exists === undefined || (typeof exists === "string" && exists === "")) {
+            this.data.push(value);
+        }
+
+        return this;
+    }
+
+}
+
+export async function write(app: App, settings: GameBacklogSettings, games: Game[]): Promise<void> {
+    let index = 0;
+
+    for (let game of games) {
+        index++;
+        console.log(`Writing ${game.filepath}... (${index}/${games.length})`);
+
+        write_note(app, settings, game);
+    }
+}
+
+function write_note(app: App, settings: GameBacklogSettings, game: Game): void {
+    // Apply dynamic default values
+    if (game.preferred_input.length === 0) {
+        if (game.platform.contains("vr")) {
+            game.preferred_input = "[[controller vr]]";
+        } else if (game.platform.contains("steam")) {
+            game.preferred_input = "[[mkb]]";
+        } else {
+            game.preferred_input = "[[controller]]";
+        }
+    }
+
+    if (game.status === "unplayed" || game.status === "") {
+        if (game.achievements && game.achievements?.current > 0) {
+            game.status = "unbeaten";
+        }
+    }
+
     let aliases = [game.name.display, ...game.other_aliases]
         .map((value: string) => `"${value}"`)
         .join(", ");
-    
+
     let note = new Note()
         .push("---")
         .push(`${kAliases}: [${aliases}]`)
@@ -248,6 +280,8 @@ export function write_note(plugin: GameBacklogPlugin, app: App, game: Game) {
     note = note
         .push("")
         .push("# `=this.aliases[0]`")
+        .push("## Related Notes")
+        .push("`$=dv.view(\"attachments/related_notes\")`")
     
     let file = app.vault.getFileByPath(game.filepath);
     if (file === null) {

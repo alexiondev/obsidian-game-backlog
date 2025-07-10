@@ -1,16 +1,14 @@
 import { UpdateBacklogCmd } from 'commands/backlog';
-import { RewriteAllCmd } from 'commands/basic';
 import { Cmd } from 'commands/command';
 import { ManageIgnoreListCmd } from 'commands/ignore_list';
-import { SteamImportCmd, SteamUpdateCmd, SteamWishlistCmd } from 'commands/steam';
-import { App, Editor, MarkdownView, Modal, Notice, Plugin, PluginSettingTab, requestUrl, RequestUrlParam, RequestUrlResponse, RequestUrlResponsePromise, setIcon } from 'obsidian';
-import { abort } from 'process';
+import { Plugin, requestUrl, RequestUrlParam, RequestUrlResponse, setIcon } from 'obsidian';
 import { GameBacklogSettings, kDefaultGameBacklogSettings, GameBacklogSettingsTab } from 'settings';
-import { Setting } from 'ui/settings_helper';
+
+const backoff = [0, 360000, 60000, 1000]
 
 export default class GameBacklogPlugin extends Plugin {
 	settings: GameBacklogSettings;
-	query_cache: Map<string, any> = new Map();
+	query_cache: Map<string, any>;
 
 	status_el: HTMLElement;
 
@@ -20,6 +18,8 @@ export default class GameBacklogPlugin extends Plugin {
 	public async onload() {
 		this.settings = Object.assign(kDefaultGameBacklogSettings, (await this.loadData()));
 		this.addSettingTab(new GameBacklogSettingsTab(this.app, this));
+		this.query_cache = new Map();
+
 		this.status_el = this.addStatusBarItem();
 		this.update_status();
 
@@ -44,6 +44,7 @@ export default class GameBacklogPlugin extends Plugin {
 
 	public onunload() {
 		console.log("GameBacklog unloaded...");
+		this.query_cache.clear();
 	}
 
 	public update_status(status: string = "", cancel_cb?: ()=>any) {
@@ -85,14 +86,17 @@ export default class GameBacklogPlugin extends Plugin {
 	}
 	
 	public async update_settings(settings: Partial<GameBacklogSettings>) {
-		console.log(settings);
 		Object.assign(this.settings, settings);
 		await this.saveData(this.settings);
 	}
 
-	public async query(url: string, attempts: number = 3, delay: number = 100): Promise<RequestUrlResponse|null> {
+	public async warn(message: string): Promise<void> {
+		console.warn(message);
+	}
+
+	public async query(url: string, attempts: number = 4): Promise<RequestUrlResponse|void> {
 		if (attempts <= 0) {
-			return null;
+			return;
 		}
 
 		if (this.query_cache.has(url)) {
@@ -110,10 +114,9 @@ export default class GameBacklogPlugin extends Plugin {
 				this.query_cache.set(url, resp);
 				return resp;
 			case 429: // Rate limiting
-				await sleep(delay);
-				return this.query(url, attempts - 1, delay*2);
+				this.warn("RATE LIMITED");
+				await sleep(backoff[attempts]);
+				return this.query(url, attempts - 1);
 		}
-
-		return null;
 	}
 }
