@@ -1,7 +1,7 @@
 {
 	"id": "game-backlog",
 	"name": "Game Backlog",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Manage your gaming backlog.",
 	"author": "Alexion Ramos",

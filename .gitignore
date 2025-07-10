@@ -18,6 +18,7 @@ main.js
 # obsidian
 data.json
 test_vault/.obsidian/plugins/**
+test_vault/.obsidian/plugins/obsidian-game-backlog/**
 
 # Exclude macOS Finder (System Explorer) View States
 .DS_Store
