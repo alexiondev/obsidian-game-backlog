@@ -16,7 +16,7 @@ export class Cmd {
         this.plugin.addCommand({
             id: this.id,
             name: this.name,
-            checkCallback: (checking: boolean) => this.check(plugin.app, plugin.settings, checking),
+            checkCallback: (checking: boolean) => this.check(plugin.app, checking),
         });
     }
 
@@ -24,15 +24,15 @@ export class Cmd {
         throw new Error("Method <with_prefix> must be overriden.");
     }
 
-    public check(app: App, settings: GameBacklogSettings, checking: boolean): boolean {
+    public check(app: App, checking: boolean): boolean {
         if (!checking) {
-            this.run(app, settings);
+            this.run(app);
         }
 
         return true;
     }
 
-    public async run(app: App, settings: GameBacklogSettings): Promise<void> {
+    public async run(app: App): Promise<void> {
         throw new Error("Method <run> must be overriden.");
     }
 

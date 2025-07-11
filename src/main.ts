@@ -65,7 +65,7 @@ export default class GameBacklogPlugin extends Plugin {
 			setIcon(refresh_button, "refresh-cw");
 			refresh_button.setAttr("aria-label", "Refresh game backlog");
 			refresh_button.onclick = async () => {
-				this.update_backlog.check(this.app, this.settings, false);
+				this.update_backlog.check(this.app, false);
 			};
 			return;
 		}

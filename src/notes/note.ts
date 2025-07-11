@@ -1,6 +1,6 @@
 import GameBacklogPlugin from "main";
 import { App, CachedMetadata, TFile, TFolder } from "obsidian";
-import { Achievements, Game, RelatedGames } from "./game";
+import { Game, new_game} from "./game";
 
 const kSteamAppId = "steam_app_id";
 const kAliases = "aliases";
@@ -110,7 +110,7 @@ export async function read_notes(plugin: GameBacklogPlugin, app: App): Promise<G
 }
 
 export function read_note(filepath: string, contents: string[], metadata: CachedMetadata): Game {
-    let game = new Game(filepath);
+    let game = new_game(filepath);
 
     const frontmatter = metadata.frontmatter!;
     const tags = metadata.tags!.map(tag => tag.tag);
@@ -133,10 +133,10 @@ export function read_note(filepath: string, contents: string[], metadata: Cached
                 break;
             case kAchievements:
                 const achievements = frontmatter[kAchievements];
-                game[kAchievements] = new Achievements(
-                    achievements[kAchievementsCurrent],
-                    achievements[kAchievementsTotal]
-                );
+                game[kAchievements] = {
+                    current: achievements[kAchievementsCurrent],
+                    total: achievements[kAchievementsTotal]
+                };
                 break;
             case kSteamAppId:
             case kReleaseYear:
@@ -177,7 +177,7 @@ export function read_note(filepath: string, contents: string[], metadata: Cached
             case kDualRelease:
             case kOriginalGame:
                 if (!game.related_games) {
-                    game.related_games = new RelatedGames();
+                    game.related_games = {};
                 }
 
                 game.related_games[key] = value.trim();

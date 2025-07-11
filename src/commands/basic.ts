@@ -9,9 +9,9 @@ export class RewriteAllCmd extends Cmd {
         return new RewriteAllCmd(plugin, prefix, "rewrite_all", "Rewrites all existing game notes.");
     }
 
-    public override async run(app: App, settings: GameBacklogSettings): Promise<void> {
-        let games = (await read_all(app, settings));
+    public override async run(app: App): Promise<void> {
+        let games = (await read_all(app, this.plugin.settings));
         console.log(games);
-        write(app, settings, games);
+        write(app, this.plugin.settings, games);
     }
 }

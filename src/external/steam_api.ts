@@ -1,5 +1,5 @@
 import GameBacklogPlugin from "main";
-import { Achievements, Game } from "notes/game";
+import { Achievements } from "notes/game";
 
 const kPlatformSteam = "[[steam]]";
 const kPlatformSteamVr = "[[steamvr]]";
@@ -241,9 +241,15 @@ export class Steam {
         }
 
         if (!current) {
-            return new Achievements(0, total);
+            return {
+                current: 0,
+                total,
+            };
         }
-        return new Achievements(current, total);
+        return {
+            current,
+            total
+        };
     }
 
     public async get_release_year(app_id: number): Promise<string | null> {
