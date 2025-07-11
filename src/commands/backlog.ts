@@ -3,7 +3,7 @@ import { Cmd } from "./command";
 import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
 import { SetupModal } from "ui/setup_modal";
-import { Steam } from "external/steam_api";
+import { OwnedGameEntry, Steam } from "external/steam_api";
 import { read_notes, write_note } from "notes/note";
 import { Game } from "notes/game";
 
@@ -48,7 +48,7 @@ export class UpdateBacklogCmd extends Cmd {
         this.cleanup();
     }
 
-    private async import_steam_games(ignore: Set<string>) {
+    private async filter_owned_games(ignore: Set<string>): Promise<OwnedGameEntry[]> {
         this.update_status("Getting owned games...");
         let owned_games = (await this.steam_api.get_owned_games())?.response.games;
 
@@ -61,7 +61,28 @@ export class UpdateBacklogCmd extends Cmd {
             return [];
         }
 
-        this.update_status("Filtering new games...");
+        this.update_status("Filtering owned games...");
+        return owned_games.filter(game => !ignore.has(game.appid.toString()));
+    }
+
+    private async import_steam_games(ignore: Set<string>): Promise<void> {
+        if (this.plugin.settings.update_only) {
+            return;
+        }
+
+        this.update_status("Getting owned games...");
+        let owned_games = (await this.steam_api.get_owned_games())?.response.games;
+
+        if (!owned_games) {
+            return;
+        }
+
+        if (owned_games?.length === 0) {
+            this.plugin.warn("Steam profile may be private!");
+            return;
+        }
+
+        this.update_status("Filtering owned games...");
         let new_games = owned_games.filter(game => !ignore.has(game.appid.toString()));
 
         for (const [index, owned] of new_games.entries()) {

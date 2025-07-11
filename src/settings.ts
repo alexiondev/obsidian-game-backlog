@@ -4,16 +4,27 @@ import { IgnoreListModal } from "ui/ignore_list_modal";
 import { SettingsFactory } from "ui/settings_helper";
 
 export interface GameBacklogSettings {
+	// Directory to write notes into.
     notes_directory: string
+	// Games to ignore (key: steam_app_id)
 	ignore_list: [string, string][]
+	// Don't automatically import games, only update existing ones.
+	update_only: boolean;
 
+	// Enable Steam API support.
     steam_enable: boolean
+	// Steam API key
     steam_api_key: string
+	// Steam user ID
     steam_user_id: string
+	// Count free to play games as "owned".
 	steam_include_free_to_play: boolean
-	steam_include_wishlist: boolean
+	// Include wishlist games in operations.
+	steam_include_wishlist: boolean // TODO
+	// Populate the "genres" field with data from Steam.
 	steam_import_genres: boolean;
 
+	// Run the first time setup modal
 	run_setup: boolean
 }
 
@@ -28,6 +39,7 @@ export type BooleanSettingsKey = {
 export const kDefaultGameBacklogSettings: GameBacklogSettings = {
     notes_directory: "games",
 	ignore_list: [],
+	update_only: false,
 
     steam_enable: true,
     steam_api_key: "",
@@ -56,7 +68,11 @@ export class GameBacklogSettingsTab extends PluginSettingTab {
 			.setName("Ignore list")
 			.add_button("Manage", /*cta=*/true, () => {
 				new IgnoreListModal(this.app, this.plugin).open()});
-		
+		factory.add(this.containerEl)
+				.setName("Update only")
+				.setDesc("Only update existing notes")
+				.add_toggle("update_only");
+	
 		factory.add(this.containerEl)
 			.setName("Steam")
 			.setHeading();
