@@ -31,7 +31,7 @@ export interface GetOwnedGamesResponse {
 
 export interface OwnedGameEntry {
     appid: number;
-    name?: string; // only present if include_appinfo=true
+    name: string; // only present if include_appinfo=true
     playtime_forever: number;
     playtime_windows_forever?: number;
     playtime_mac_forever?: number;

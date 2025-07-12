@@ -1,6 +1,6 @@
 import GameBacklogPlugin from "main";
-import { Modal, App, ButtonComponent, ExtraButtonComponent, TextComponent } from "obsidian";
-import { Setting, SettingsFactory } from "./settings_helper";
+import { Modal, App } from "obsidian";
+import { SettingsFactory } from "ui/settings_helper";
 
 function clone(value: any): any {
     return JSON.parse(JSON.stringify(value));

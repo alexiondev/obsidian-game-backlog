@@ -1,6 +1,6 @@
 import GameBacklogPlugin from "main";
-import { PluginSettingTab, App, ButtonComponent } from "obsidian";
-import { IgnoreListModal } from "ui/ignore_list_modal";
+import { PluginSettingTab, App } from "obsidian";
+import { IgnoreListModal } from "ui/modals/ignore_list";
 import { SettingsFactory } from "ui/settings_helper";
 
 export interface GameBacklogSettings {

@@ -1,7 +1,7 @@
 import GameBacklogPlugin from "main";
 import { Cmd } from "./command";
 import { App } from "obsidian";
-import { IgnoreListModal } from "ui/ignore_list_modal";
+import { IgnoreListModal } from "ui/modals/ignore_list";
 
 export class ManageIgnoreListCmd extends Cmd {
     public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {

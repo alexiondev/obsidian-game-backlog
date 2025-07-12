@@ -1,11 +1,11 @@
 import GameBacklogPlugin from "main";
 import { Cmd } from "./command";
-import { GameBacklogSettings } from "settings";
 import { App } from "obsidian";
-import { SetupModal } from "ui/setup_modal";
+import { SetupModal } from "ui/modals/setup";
 import { OwnedGameEntry, Steam } from "external/steam_api";
 import { read_notes, write_note } from "notes/note";
 import { Game, new_game } from "notes/game";
+import { GamePickerModal } from "ui/modals/game_picker";
 
 const kDelimiter = " / ";
 const kSymbolsToIgnore = /[:,!?'™®+/\.\[\]]/gi;
@@ -64,6 +64,24 @@ class BacklogCmd extends Cmd {
         game.name.display = name;
         Object.assign(game, properties);
         return game;
+    }
+
+    protected async import_steam_games(games: OwnedGameEntry[]): Promise<void> { 
+        for (const [index, owned] of games.entries()) {
+            if (this.should_abort()) {
+                return;
+            }
+
+            this.update_status(`Importing ${owned.name}... (${index+1}/${games.length})`);
+            let game = await this.update_steam_game(
+                this.new_game_note(owned.name!, {steam_app_id: owned.appid}));
+            
+            // Don't want to write the note if it's in the middle of an abort.
+            if (this.should_abort()) {
+                return;
+            }
+            write_note(this.plugin, this.plugin.app, game);
+        }
     }
 
     protected async update_steam_game(game: Game): Promise<Game> {
@@ -131,31 +149,32 @@ export class UpdateBacklogCmd extends BacklogCmd{
 
         let new_games = await this.get_new_steam_games(app);
 
-        await this.import_steam_games(new_games);
+        if (!this.plugin.settings.update_only) {
+            await this.import_steam_games(new_games);
+        }
 
         this.cleanup();
     }
 
-    private async import_steam_games(games: OwnedGameEntry[]): Promise<void> {
-        if (this.plugin.settings.update_only) {
+    
+}
+
+export class ImportGameCmd extends BacklogCmd {
+    public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
+        return new ImportGameCmd(plugin, prefix, "import_steam_game", "Select what game(s) to import");
+    }
+
+    public override async run(app: App) {
+        if (this.run_setup(app)) {
             return;
         }
 
-        for (const [index, owned] of games.entries()) {
-            if (this.should_abort()) {
-                return;
-            }
-
-            this.update_status(`Importing ${owned.name}... (${index+1}/${games.length})`);
-            let game = await this.update_steam_game(
-                this.new_game_note(owned.name!, {steam_app_id: owned.appid}));
-            
-            // Don't want to write the note if it's in the middle of an abort.
-            if (this.should_abort()) {
-                return;
-            }
-            write_note(this.plugin, this.plugin.app, game);
-        }
+        let new_games = await this.get_new_steam_games(app);
+        this.update_status("Manual selection of games");
+        new GamePickerModal(app, this.plugin, new_games, async (selected: OwnedGameEntry[]) => {
+            await this.import_steam_games(selected);
+            this.cleanup();
+        }).open();
     }
 }
 

@@ -1,7 +1,6 @@
 import GameBacklogPlugin from "main";
-import { Modal, App, ButtonComponent, ExtraButtonComponent, Setting, TextComponent } from "obsidian";
-import { GameBacklogSettings } from "settings";
-import { SettingsFactory } from "./settings_helper";
+import { Modal, App } from "obsidian";
+import { SettingsFactory } from "ui/settings_helper";
 
 export class SetupModal extends Modal {
     plugin: GameBacklogPlugin;
