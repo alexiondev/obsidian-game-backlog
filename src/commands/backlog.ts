@@ -171,10 +171,46 @@ export class ImportGameCmd extends BacklogCmd {
 
         let new_games = await this.get_new_steam_games(app);
         this.update_status("Manual selection of games");
-        new GamePickerModal(app, this.plugin, new_games, async (selected: OwnedGameEntry[]) => {
-            await this.import_steam_games(selected);
-            this.cleanup();
+        new GamePickerModal(
+            app,
+            this.plugin, 
+            new_games, 
+            "Import games",
+            "Import",
+            async (selected: OwnedGameEntry[]) => {
+                await this.import_steam_games(selected);
+                this.cleanup();
         }).open();
+    }
+}
+
+export class IgnoreUnimportedGamesCmd extends BacklogCmd {
+    public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
+        return new IgnoreUnimportedGamesCmd(plugin, prefix, "ignore_games", "Ignore unimported games");
+    }
+
+    public override async run(app: App) {
+        if (this.run_setup(app)) {
+            return;
+        }
+
+        let unimported_games = await this.get_new_steam_games(app);
+        this.update_status("Selecting games to ignore");
+        new GamePickerModal(
+            app, this.plugin,
+            unimported_games,
+            "Ignore unimported games",
+            "Ignore",
+            async (selected: OwnedGameEntry[]) => {
+                let ignore_list = this.plugin.settings.ignore_list;
+                selected.forEach((owned: OwnedGameEntry) => {
+                    ignore_list.push([owned.appid.toString(), owned.name]);
+                });
+
+                this.plugin.update_settings({ignore_list});
+            }
+        ).open();
+
     }
 }
 

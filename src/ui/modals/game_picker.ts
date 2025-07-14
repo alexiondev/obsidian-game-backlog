@@ -14,8 +14,10 @@ export class GamePickerModal extends Modal {
     selected: Set<string>; 
     footer_created: boolean;
     filter: string;
+    modal_title: string;
+    button_label: string;
     
-    constructor(app: App, plugin:GameBacklogPlugin, games: Named[], callback: SelectedCallback){
+    constructor(app: App, plugin:GameBacklogPlugin, games: Named[], modal_title: string, button_label: string, callback: SelectedCallback){
         super(app);
         this.plugin = plugin;
         this.available = games.sort(((a, b) => a.name.localeCompare(b.name)));
@@ -23,12 +25,14 @@ export class GamePickerModal extends Modal {
         this.selected = new Set();
         this.footer_created = false;
         this.filter = "";
+        this.modal_title = modal_title;
+        this.button_label = button_label;
 
         this.display();
     }
 
     public display(): void {
-        this.setTitle("Game picker");
+        this.setTitle(this.modal_title);
         this.contentEl.empty();
         this.contentEl.style.maxHeight = "70vh";
         this.contentEl.style.overflowY = "auto";
@@ -53,7 +57,7 @@ export class GamePickerModal extends Modal {
             let footer = this.modalEl.createDiv({ cls: "modal-footer" });
             factory.add(footer)
                 .add_raw_text(
-                    "Filter game title...",
+                    "Filter games...",
                     "",
                     new_value => {
                         this.filter = new_value;
@@ -61,7 +65,7 @@ export class GamePickerModal extends Modal {
                     }
                 )
                 .add_button(
-                    "Import",
+                    this.button_label,
                     true,
                     () => {
                         this.close();
