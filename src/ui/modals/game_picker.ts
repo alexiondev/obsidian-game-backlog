@@ -1,6 +1,6 @@
 import GameBacklogPlugin from "main";
 import { App, Modal, ToggleComponent } from "obsidian";
-import { SettingsFactory } from "ui/settings_helper";
+import { Setting, SettingsFactory } from "ui/settings_helper";
 
 interface Named {
     name: string;
@@ -13,6 +13,7 @@ export class GamePickerModal extends Modal {
     callback: SelectedCallback;
     selected: Set<string>; 
     footer_created: boolean;
+    filter: string;
     
     constructor(app: App, plugin:GameBacklogPlugin, games: Named[], callback: SelectedCallback){
         super(app);
@@ -21,6 +22,7 @@ export class GamePickerModal extends Modal {
         this.callback = callback;
         this.selected = new Set();
         this.footer_created = false;
+        this.filter = "";
 
         this.display();
     }
@@ -32,7 +34,7 @@ export class GamePickerModal extends Modal {
         this.contentEl.style.overflowY = "auto";
         let factory = new SettingsFactory(this.plugin, this.app, this);
         
-        this.available.forEach(named  => {
+        this.available.filter(named => named.name.toLowerCase().contains(this.filter)).forEach(named  => {
             let selected = this.selected.has(named.name);
             factory.add(this.contentEl)
                 .setName(named.name)
@@ -50,13 +52,28 @@ export class GamePickerModal extends Modal {
         if (!this.footer_created) {
             let footer = this.modalEl.createDiv({ cls: "modal-footer" });
             factory.add(footer)
+                .add_raw_text(
+                    "Filter game title...",
+                    "",
+                    new_value => {
+                        this.filter = new_value;
+                        this.display();
+                    }
+                )
                 .add_button(
                     "Import",
                     true,
                     () => {
                         this.close();
                         this.callback(this.available.filter(named => this.selected.has(named.name)));
-                    });
+                    })
+                .add_button(
+                    "Cancel",
+                    false,
+                    () => {
+                        this.close();
+                    }
+                );
             this.footer_created = true;
         }
     }
