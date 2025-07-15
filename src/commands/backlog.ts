@@ -18,6 +18,14 @@ class BacklogCmd extends Cmd {
         return game;
     }
 
+    protected write_note(game: Game) {
+        // Don't want to write the note if it's in the middle of an abort.
+        if (this.should_abort()) {
+            return;
+        }
+        write_note(this.plugin, this.plugin.app, game);
+    }
+
     protected async import_steam_games(games: OwnedGameEntry[]): Promise<void> { 
         for (const [index, owned] of games.entries()) {
             if (this.should_abort()) {
@@ -28,11 +36,20 @@ class BacklogCmd extends Cmd {
             let game = await this.update_steam_game(
                 this.new_game_note(owned.name!, {steam_app_id: owned.appid}));
             
-            // Don't want to write the note if it's in the middle of an abort.
+            this.write_note(game); 
+        }
+    }
+
+    protected async update_steam_games(games: Game[]): Promise<void> {
+        for (const [index, game] of games.entries()) {
             if (this.should_abort()) {
                 return;
             }
-            write_note(this.plugin, this.plugin.app, game);
+
+            this.update_status(`Updating ${game.name.display}... (${index+1}/${games.length})`);
+            const updated = await this.update_steam_game(game);
+
+            this.write_note(updated);
         }
     }
 
@@ -80,7 +97,24 @@ class BacklogCmd extends Cmd {
         return game;
     }
 
-    
+    protected async get_outdated_games(): Promise<Game[]> {
+        let owned_games = await this.steam_api.get_owned_games();
+        if (!owned_games) {
+            return [];
+        }
+
+        let last_played_by_id: Map<number, number|undefined> = new Map();
+        owned_games.response.games.forEach(owned => {
+            last_played_by_id.set(owned.appid, owned.rtime_last_played);
+        });
+
+        return (await read_notes(this.plugin, this.plugin.app))
+            .filter(game => game.steam_app_id)
+            .filter(game => {
+                let last_played = last_played_by_id.get(game.steam_app_id!);
+                return last_played === undefined || last_played > game.last_updated!;
+            });
+    }
 }
 
 export class UpdateBacklogCmd extends BacklogCmd{
@@ -104,6 +138,8 @@ export class UpdateBacklogCmd extends BacklogCmd{
         if (!this.plugin.settings.update_only) {
             await this.import_steam_games(owned_games);
         }
+
+        this.update_steam_games(await this.get_outdated_games());
 
         this.cleanup();
     }
