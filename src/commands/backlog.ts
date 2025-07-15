@@ -11,54 +11,6 @@ const kDelimiter = " / ";
 const kSymbolsToIgnore = /[:,!?'™®+/\.\[\]]/gi;
 
 class BacklogCmd extends Cmd {
-    protected steam_api: Steam;
-
-    protected constructor(plugin: GameBacklogPlugin, prefix: string, id: string, name: string) {
-        super(plugin, prefix, id, name);
-
-        this.steam_api = new Steam(this.plugin, () => this.should_abort());
-    }
-    
-    protected cleanup() {
-        this.plugin.update_status();
-    }
-
-    protected run_setup(app: App): boolean {
-        if (this.plugin.settings.run_setup) {
-            let setup_menu = new SetupModal(app, this.plugin);
-            setup_menu.open();
-            return true; // Should abort
-        }
-        return false; // Continue
-    }
-    
-    protected update_status(status: string) {
-        this.plugin.update_status(status, () => { this.abort() });
-    }
-
-    protected async get_new_steam_games(app: App): Promise<OwnedGameEntry[]> {
-        let exists = await read_notes(this.plugin, app);
-        let ignore_list = new Set<string>([
-            ...this.plugin.settings.ignore_list.map(entry => entry[0]),
-            ...exists.filter(game => game.steam_app_id).map(game => game.steam_app_id!.toString()),
-        ]);
-
-        this.update_status("Getting owned games...");
-        let owned_games = (await this.steam_api.get_owned_games())?.response.games;
-
-        if (!owned_games) {
-            return [];
-        }
-
-        if (owned_games.length == 0) {
-            this.plugin.warn("Steam profile may be private!");
-            return [];
-        }
-
-        this.update_status("Filtering owned games...");
-        return owned_games.filter(game => !ignore_list.has(game.appid.toString()));
-    }
-
     protected new_game_note(name: string, properties: Partial<Game>) {
         let game = new_game(`${this.plugin.settings.notes_directory}/${normalize(name)}.md`);
         game.name.display = name;
@@ -147,10 +99,10 @@ export class UpdateBacklogCmd extends BacklogCmd{
     private async update_backlog(app: App) {
         this.abort_controller = new AbortController();
 
-        let new_games = await this.get_new_steam_games(app);
+        let owned_games = await this.get_steam_games_not_imported(app);
 
         if (!this.plugin.settings.update_only) {
-            await this.import_steam_games(new_games);
+            await this.import_steam_games(owned_games);
         }
 
         this.cleanup();
@@ -169,48 +121,18 @@ export class ImportGameCmd extends BacklogCmd {
             return;
         }
 
-        let new_games = await this.get_new_steam_games(app);
+        let owned_games = await this.get_steam_games_not_imported(app);
         this.update_status("Manual selection of games");
         new GamePickerModal(
             app,
             this.plugin, 
-            new_games, 
+            owned_games, 
             "Import games",
             "Import",
             async (selected: OwnedGameEntry[]) => {
                 await this.import_steam_games(selected);
                 this.cleanup();
         }).open();
-    }
-}
-
-export class IgnoreUnimportedGamesCmd extends BacklogCmd {
-    public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
-        return new IgnoreUnimportedGamesCmd(plugin, prefix, "ignore_games", "Ignore unimported games");
-    }
-
-    public override async run(app: App) {
-        if (this.run_setup(app)) {
-            return;
-        }
-
-        let unimported_games = await this.get_new_steam_games(app);
-        this.update_status("Selecting games to ignore");
-        new GamePickerModal(
-            app, this.plugin,
-            unimported_games,
-            "Ignore unimported games",
-            "Ignore",
-            async (selected: OwnedGameEntry[]) => {
-                let ignore_list = this.plugin.settings.ignore_list;
-                selected.forEach((owned: OwnedGameEntry) => {
-                    ignore_list.push([owned.appid.toString(), owned.name]);
-                });
-
-                this.plugin.update_settings({ignore_list});
-            }
-        ).open();
-
     }
 }
 

@@ -75,6 +75,7 @@ export class GamePickerModal extends Modal {
                     "Cancel",
                     false,
                     () => {
+                        this.plugin.update_status();
                         this.close();
                     }
                 );
