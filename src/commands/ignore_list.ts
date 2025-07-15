@@ -1,9 +1,10 @@
 import GameBacklogPlugin from "main";
 import { Cmd } from "./command";
-import { App } from "obsidian";
+import { App, TFile } from "obsidian";
 import { IgnoreListModal } from "ui/modals/ignore_list";
 import { GamePickerModal } from "ui/modals/game_picker";
 import { OwnedGameEntry } from "external/steam_api";
+import { read_note } from "notes/note";
 
 export class ManageIgnoreListCmd extends Cmd {
     public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
@@ -43,5 +44,52 @@ export class IgnoreGamesCmd extends Cmd {
                 this.plugin.update_status();
             }
         ).open();
+    }
+}
+
+export class IgnoreCurrentGameCmd extends Cmd {
+    public static override with_prefix(plugin: GameBacklogPlugin, prefix: string): Cmd {
+        return new IgnoreCurrentGameCmd(plugin, prefix, "ignore_current_game", "Ignore current game");
+    }
+
+    public override async run(app: App) {
+        if (this.run_setup(app)) {
+            return;
+        }
+
+        const current = app.workspace.getActiveFile();
+        if (!(current instanceof TFile)) {
+            this.plugin.warn("No file is open.");
+            return;
+        }
+
+        const metadata = app.metadataCache.getFileCache(current);
+
+        if (!metadata) {
+            this.plugin.warn("Can't load metadata of current file.");
+            return;
+        }
+
+        if (!metadata.frontmatter) {
+            this.plugin.warn("Can't load frontmatter of current file.");
+            return;
+        }
+
+        if (!metadata.tags) {
+            this.plugin.warn("Can't load tags of current file.");
+            return;
+        }
+
+        const game = read_note(
+            current.path,
+            (await app.vault.read(current)).split("\n"),
+            metadata
+        );
+
+        if (game.steam_app_id) {
+            let ignore_list = this.plugin.settings.ignore_list;
+            ignore_list.push([game.steam_app_id.toString(), game.name.display]);
+            this.plugin.update_settings({ignore_list});
+        }
     }
 }
