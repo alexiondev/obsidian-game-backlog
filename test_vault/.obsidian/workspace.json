@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "146ba0c14cd2b830",
+        "id": "77e67c8937b8a8f4",
         "type": "tabs",
         "children": [
           {
-            "id": "3e0214582e230e5d",
+            "id": "935ff81e6cdd6cef",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "games/fear extraction point.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "fear extraction point"
             }
           }
         ]
@@ -153,6 +157,7 @@
   },
   "left-ribbon": {
     "hiddenItems": {
+      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
@@ -161,34 +166,36 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "3e0214582e230e5d",
+  "active": "935ff81e6cdd6cef",
   "lastOpenFiles": [
-    "Untitled.md",
-    "games/a virus named tom.md",
-    "games/guacamelee gold edition.md",
-    "games/kingdom rush.md",
-    "games/space engineers.md",
-    "games/mushroom 11.md",
-    "games/the forest.md",
-    "games/the elder scrolls v skyrim.md",
-    "games/the swapper.md",
-    "games/dust an elysian tail.md",
-    "games/reus.md",
-    "games/the bureau xcom declassified.md",
-    "games/anomaly 2.md",
-    "games/surgeon simulator.md",
-    "games/bioshock infinite.md",
-    "games/prison architect.md",
-    "games/monster loves you.md",
-    "games/they bleed pixels.md",
+    "games/fear perseus mandate.md",
+    "games/tropico 3 - steam special edition.md",
+    "games/fallout new vegas.md",
+    "games/fallout 3 - game of the year edition.md",
+    "games/the elder scrolls iii morrowind.md",
+    "games/world of goo.md",
+    "games/resident evil 5.md",
+    "games/lego harry potter years 1-4.md",
+    "games/fear extraction point.md",
+    "games/fear.md",
+    "games/the witcher enhanced edition.md",
+    "games/spore creepy & cute parts pack.md",
+    "games/mirrors edge.md",
+    "games/spore.md",
+    "games/saints row 2.md",
     "games/sid meiers civilization v.md",
-    "games/kentucky route zero.md",
-    "games/realm of the mad god exalt.md",
-    "games/spiral knights.md",
-    "games/antichamber.md",
-    "games/euro truck simulator 2.md",
-    "games/tomb raider.md",
-    "games/ace of spades.md",
+    "games/bioshock infinite.md",
+    "games/bioshock 2.md",
+    "games/bioshock.md",
+    "games/psychonauts.md",
+    "games/sniper elite.md",
+    "games/plants vs zombies game of the year.md",
+    "games/insaniquarium deluxe.md",
+    "games/two worlds epic edition.md",
+    "games/killing floor.md",
+    "games/counter-strike 2.md",
+    "games",
+    "games",
     "genres/features",
     "platforms/Untitled",
     "platforms",
@@ -196,8 +203,6 @@
     "attachments/dv_utils.js",
     "attachments/unlinked_mentions.js",
     "attachments/related_notes.js",
-    "attachments/playlist.js",
-    "attachments/list_of_notes.js",
-    "attachments/genre.js"
+    "attachments/playlist.js"
   ]
 }

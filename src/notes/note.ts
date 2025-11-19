@@ -25,13 +25,12 @@ const kRomPath = "rom_path";
 const kTagInnacurateGenres = "#innacurate/genres";
 const kTagInnacurateFeatures = "#innacurate/features";
 const kTagInnacurateYear = "#innacurate/year";
+const kTagVersionPre32 = "#v3/2";
 const kTagsToIgnore = new Set([
     kTagInnacurateGenres,
     kTagInnacurateFeatures,
     kTagInnacurateYear,
-    "#v3/0",
-    "#v3/1",
-    "#v3/2",
+    kTagVersionPre32,
 ]);
 
 class Note {
@@ -110,6 +109,17 @@ export async function read_notes(plugin: GameBacklogPlugin, app: App): Promise<G
 }
 
 export function read_note(filepath: string, contents: string[], metadata: CachedMetadata): Game {
+
+    for (const tag of metadata.tags!) {
+        if (tag.tag == kTagVersionPre32) {
+            return read_note_pre32(filepath, contents, metadata);
+        }
+    }
+    console.warn("Could not find a suitable reader");
+    return new_game(filepath);
+}
+
+function read_note_pre32(filepath: string, contents: string[], metadata: CachedMetadata): Game {
     let game = new_game(filepath);
 
     const frontmatter = metadata.frontmatter!;

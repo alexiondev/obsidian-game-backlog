@@ -1,5 +1,6 @@
 import { ImportGameCmd, UpdateBacklogCmd } from 'commands/backlog';
 import { Cmd } from 'commands/command';
+import { RewriteAllCmd } from 'commands/debug';
 import { IgnoreCurrentGameCmd, IgnoreGamesCmd, ManageIgnoreListCmd } from 'commands/ignore_list';
 import { Plugin, requestUrl, RequestUrlParam, RequestUrlResponse, setIcon } from 'obsidian';
 import { GameBacklogSettings, kDefaultGameBacklogSettings, GameBacklogSettingsTab } from 'settings';
@@ -17,6 +18,7 @@ export default class GameBacklogPlugin extends Plugin {
 	manage_ignore_list: Cmd;
 	ignore_unimported_games: Cmd;
 	ignore_current_game: Cmd;
+	rewrite_all: Cmd;
 
 	public async onload() {
 		this.settings = Object.assign(kDefaultGameBacklogSettings, (await this.loadData()));
@@ -35,6 +37,9 @@ export default class GameBacklogPlugin extends Plugin {
 		this.manage_ignore_list = ManageIgnoreListCmd.with_prefix(this, command_prefix);
 		this.ignore_unimported_games = IgnoreGamesCmd.with_prefix(this, command_prefix);
 		this.ignore_current_game = IgnoreCurrentGameCmd.with_prefix(this, command_prefix);
+
+		// Debug
+		this.rewrite_all = RewriteAllCmd.with_prefix(this, command_prefix);
 
 		console.log("GameBacklog loaded!");
 	}
