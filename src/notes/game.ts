@@ -8,10 +8,10 @@ export interface Game {
     rom_path?: string;
     last_updated?: number;
 
-    genres: string;
-    platform: string;
-    features: string;
-    preferred_input: string;
+    genres?: string;
+    platform?: string;
+    features?: string;
+    preferred_input?: string;
     related_games?: RelatedGames;
 
     status: string;

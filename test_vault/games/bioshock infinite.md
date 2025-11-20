@@ -7,14 +7,13 @@ release_year: 2013
 
 steam_app_id: 8870
 last_updated: 1763518016
+
+genres: "[[action]]"
+platform: "[[steam]]"
+features: "[[single player]]"
+preferred_input: "[[mkb]] / [[controller]]"
 ---
-%%
-genres:: [[action]]
-platform:: [[steam]]
-features:: [[single player]]
-preferred_input:: [[mkb]] / [[controller]]
-%%
 #game/unplayed
-#v3/2
+#v1/0
 
 # `=this.aliases[0]`

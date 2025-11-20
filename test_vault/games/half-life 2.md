@@ -7,14 +7,13 @@ release_year: 2004
 
 steam_app_id: 220
 last_updated: 1763518012
+
+genres: "[[action]]"
+platform: "[[steam]]"
+features: "[[single player]] / [[steam workshop]]"
+preferred_input: "[[mkb]] / [[controller]]"
 ---
-%%
-genres:: [[action]]
-platform:: [[steam]]
-features:: [[single player]] / [[steam workshop]]
-preferred_input:: [[mkb]] / [[controller]]
-%%
 #game/unplayed
-#v3/2
+#v1/0
 
 # `=this.aliases[0]`

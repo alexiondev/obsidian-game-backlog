@@ -26,11 +26,13 @@ const kTagInnacurateGenres = "#innacurate/genres";
 const kTagInnacurateFeatures = "#innacurate/features";
 const kTagInnacurateYear = "#innacurate/year";
 const kTagVersionPre32 = "#v3/2";
+const kTagVersion10 = "#v1/0";
 const kTagsToIgnore = new Set([
     kTagInnacurateGenres,
     kTagInnacurateFeatures,
     kTagInnacurateYear,
     kTagVersionPre32,
+    kTagVersion10,
 ]);
 
 class Note {
@@ -113,10 +115,87 @@ export function read_note(filepath: string, contents: string[], metadata: Cached
     for (const tag of metadata.tags!) {
         if (tag.tag == kTagVersionPre32) {
             return read_note_pre32(filepath, contents, metadata);
+        } else if (tag.tag == kTagVersion10) {
+            return read_note_v10(filepath, contents, metadata);
         }
+
     }
     console.warn("Could not find a suitable reader");
     return new_game(filepath);
+}
+
+function read_note_v10(filepath: string, contents: string[], metadata: CachedMetadata): Game {
+    let game = new_game(filepath);
+
+    const frontmatter = metadata.frontmatter!;
+    const tags = metadata.tags!.map(tag => tag.tag);
+
+    for (const key in frontmatter) {
+        switch(key) {
+            case kAliases:
+                let aliases = frontmatter[key];
+                if (aliases.size === 0) {
+                    console.warn(`Game (${game.filepath}) does not have a name.`);
+                    break;
+                }
+
+                game.name.display = aliases[0];
+                game.other_aliases = aliases.slice(1);
+                break;
+            case kSortName:
+                game.name.sort = frontmatter[key];
+                break;
+            case kAchievements:
+                const achievements = frontmatter[kAchievements];
+                game[kAchievements] = {
+                    current: achievements[kAchievementsCurrent],
+                    total: achievements[kAchievementsTotal]
+                };
+                break;
+            case kSteamAppId:
+            case kReleaseYear:
+            case kRomPath:
+            case kLastUpdate:
+            case kGenres:
+            case kPlatform:
+            case kFeatures:
+            case kPreferredInput:
+                game[key] = frontmatter[key];
+                break;
+            case kGenre: // Map Genre -> Genres
+                game[kGenres] = frontmatter[key];
+                break;
+            case kSequel:
+            case kRemake:
+            case kPrequel:
+            case kCompilation:
+            case kDualRelease:
+            case kOriginalGame:
+                if (!game.related_games) {
+                    game.related_games = {};
+                }
+
+                game.related_games[key] = frontmatter[key];
+                break;
+            default:
+                console.warn(`Unknown frontmatter field: (${key}, ${frontmatter[key]})`);
+        }
+
+        game.other_tags = [];
+        for (let tag of tags) {
+            if (kTagsToIgnore.has(tag)) {
+                continue;
+            }
+
+            if (tag.match(/#game\/.+/)) {
+                game.status = tag.split("/")[1];
+            } else {
+                game.other_tags.push(tag);
+            }
+        }
+    }
+
+    return game;
 }
 
 function read_note_pre32(filepath: string, contents: string[], metadata: CachedMetadata): Game {
@@ -231,25 +310,24 @@ export function write_note(plugin: GameBacklogPlugin, app: App, game: Game) {
         .push_if(game.steam_app_id, `${kSteamAppId}: ${game.steam_app_id}`)
         .push_if(game.rom_path, `${kRomPath}: ${game.rom_path}`)
         .push_if(game.last_updated, `${kLastUpdate}: ${game.last_updated}`)
-        .push("---")
-        .push("%%")
-        .push(`${kGenres}:: ${game.genres}`)
-        .push(`${kPlatform}:: ${game.platform}`)
-        .push(`${kFeatures}:: ${game.features}`)
-        .push(`${kPreferredInput}:: ${game.preferred_input}`)
+        .push("")
+        .push(`${kGenres}: "${game.genres}"`)
+        .push(`${kPlatform}: "${game.platform}"`)
+        .push(`${kFeatures}: "${game.features}"`)
+        .push(`${kPreferredInput}: "${game.preferred_input}"`)
         .push_if(game.related_games, "")
-        .push_if(game.related_games?.sequel, `${kSequel}:: ${game.related_games?.sequel}`)
-        .push_if(game.related_games?.remake, `${kRemake}:: ${game.related_games?.remake}`)
-        .push_if(game.related_games?.prequel, `${kPrequel}:: ${game.related_games?.prequel}`)
-        .push_if(game.related_games?.compilation, `${kCompilation}:: ${game.related_games?.compilation}`)
-        .push_if(game.related_games?.dual_release, `${kDualRelease}:: ${game.related_games?.dual_release}`)
-        .push_if(game.related_games?.original_game, `${kOriginalGame}:: ${game.related_games?.original_game}`)
-        .push("%%")
+        .push_if(game.related_games?.sequel, `${kSequel}: "${game.related_games?.sequel}"`)
+        .push_if(game.related_games?.remake, `${kRemake}: "${game.related_games?.remake}"`)
+        .push_if(game.related_games?.prequel, `${kPrequel}: "${game.related_games?.prequel}"`)
+        .push_if(game.related_games?.compilation, `${kCompilation}: "${game.related_games?.compilation}"`)
+        .push_if(game.related_games?.dual_release, `${kDualRelease}: "${game.related_games?.dual_release}"`)
+        .push_if(game.related_games?.original_game, `${kOriginalGame}: "${game.related_games?.original_game}"`)
+        .push("---")
         .push(`#game/${game.status}`)
         .push_if_not(game.genres, kTagInnacurateGenres)
         .push_if_not(game.features, kTagInnacurateFeatures)
         .push_if_not(game.release_year, kTagInnacurateYear)
-        .push("#v3/2");
+        .push(kTagVersion10);
 
     for (let tag of game.other_tags) {
         note.push(tag);
