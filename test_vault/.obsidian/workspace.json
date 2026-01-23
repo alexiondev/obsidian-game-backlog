@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "games/half-life.md",
+                "file": "games/bioshock.md",
                 "mode": "preview",
                 "source": true
               },
               "icon": "lucide-file",
-              "title": "half-life"
+              "title": "bioshock"
             }
           }
         ]
@@ -168,6 +168,22 @@
   },
   "active": "935ff81e6cdd6cef",
   "lastOpenFiles": [
+    "playlists/beat (any).md",
+    "playlists/beat (unbeaten).md",
+    "playlists/beat (unplayed).md",
+    "playlists/by backlog achievement average (above).md",
+    "playlists/by backlog achievement average (below).md",
+    "playlists/by genre.md",
+    "playlists/by platform.md",
+    "playlists/by playlist.md",
+    "playlists/by release year.md",
+    "playlists/by retro games.md",
+    "playlists/from wishlist.md",
+    "playlists/all games.md",
+    "genres/features/online pvp.md",
+    "genres/features/online co-op.md",
+    "genres/features/local pvp.md",
+    "games/half-life.md",
     "games/fear perseus mandate.md",
     "games/world of goo.md",
     "games/two worlds epic edition.md",
@@ -178,22 +194,6 @@
     "games/spore.md",
     "games/spore creepy & cute parts pack.md",
     "games/sniper elite.md",
-    "games/sid meiers civilization v.md",
-    "games/saints row 2.md",
-    "games/resident evil 5.md",
-    "games/psychonauts.md",
-    "games/portal.md",
-    "games/portal 2.md",
-    "games/plants vs zombies game of the year.md",
-    "games/mirrors edge.md",
-    "games/lego harry potter years 1-4.md",
-    "games/left 4 dead.md",
-    "games/left 4 dead 2.md",
-    "games/killing floor.md",
-    "games/insaniquarium deluxe.md",
-    "games/half-life.md",
-    "games/half-life source.md",
-    "games/half-life opposing force.md",
     "games",
     "games",
     "genres/features",
